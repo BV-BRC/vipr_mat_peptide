@@ -68,7 +68,7 @@ my $outFormat = ''; # output format is same as input; for gbk input, fasta is al
 my $inFormat = ''; # determined by filename
 my $infile;
 my $list_fn = '';
-my $dir_path = './';
+my $dir_path = '';
 my $checkRefseq = '0';
 my $checkTaxon = '0';
 my $update = 0;
@@ -89,12 +89,17 @@ my $useropts = GetOptions(
          "l=s"  => \ $list_fn,     # list of the gbk file
          "debug"  => \ $debug,     # turn on all debug messages, see module Annotate_misc.pm for setting for each module
          );
+if (!$infile && !$list_fn && !$dir_path) {
+    print Annotate_misc::Usage( $exe_name, $exe_dir);
+    exit(0);
+}
 $dir_path =~ s/[\/]$//;
 $dir_path = abs_path($dir_path) . '/';
 $list_fn =~ s/[\/]$//;
 
 $debug && print STDERR "$exe_name: \$exe_dir  ='$exe_dir'\n";
 $debug && print STDERR "$exe_name: input \$dir_path   ='$dir_path'\n";
+$infile && print STDERR "$exe_name: input \$dir_path   ='$dir_path/$infile'\n";
 print STDERR "$exe_name: input \$checkTaxon ='$checkTaxon'\n" if ($checkTaxon ne '0');
 print STDERR "$exe_name: input \$checkRefseq='$checkRefseq'\n" if ($checkRefseq ne '0');
 $debug && print STDERR "\n";
@@ -129,9 +134,6 @@ if ($checkTaxon) {
     printf STDERR "\n$exe_name: finished checking %d RefSeqs, exit.\n\n", $count;
     exit(0);
 
-} elsif (!$infile && !$list_fn) {
-    print Annotate_misc::Usage( $exe_name, $exe_dir);
-    exit(0);
 }
 
 # Now, get all accessions (or files) to be processed
@@ -152,16 +154,14 @@ if ($infile) {
     }
 
     # Now run the annotation
-    my $accs = [];
     push @$accs, [$#{$accs}+1, "$dir_path/$infile"];
 
     $dbh_ref = undef;
-    Annotate_misc::process_list1( $accs, $aln_fn, $dbh_ref, $exe_dir, $exe_name, $dir_path, $inFormat, $inTaxon, $outFormat);
+#    Annotate_misc::process_list1( $accs, $aln_fn, $dbh_ref, $exe_dir, $exe_name, $dir_path, $inFormat, $inTaxon, $outFormat);
 
-} elsif ("$dir_path/$list_fn") {
+} elsif ("$dir_path/$list_fn" || -e "$dir_path") {
 
     print STDERR "$exe_name: Input accession are in dir/file '$dir_path/$list_fn'\n";
-    my $accs = [];
     if (-d "$dir_path/$list_fn") {
         $dir_path = "$dir_path/$list_fn";
         # if input -l file is directory
@@ -180,10 +180,22 @@ if ($infile) {
 
     if ( 1 ) {
         # MSA for each genome
-        Annotate_misc::process_list1( $accs, $aln_fn, $dbh_ref, $exe_dir, $exe_name, $dir_path, $inFormat, $inTaxon, $outFormat);
+#        Annotate_misc::process_list1( $accs, $aln_fn, $dbh_ref, $exe_dir, $exe_name, $dir_path, $inFormat, $inTaxon, $outFormat);
     }
 
 }
+
+    $debug && print STDERR "$exe_name: \$accs=\n". Dumper($accs) . "End of \$accs\n";
+    for my $i (0 .. $#{$accs}) {
+        my $job_name = $accs->[$i]->[1];
+        $job_name =~ s/[.]\w{1,7}$//; # remove the file name extension
+        $job_name =~ s/^.*[\/\\]//; # remove the directory
+        print STDERR "$exe_name: \$job_name='$job_name'\n";
+        my $acc = [ $accs->[$i] ];
+
+        Annotate_misc::process_list1( $acc, $aln_fn, $dbh_ref, $exe_dir, $exe_name, $dir_path, $inFormat, $inTaxon, $outFormat);
+
+    }
 
     print "\n$exe_name: finished.\n\n";
     print STDERR "\n$exe_name: finished.\n\n";

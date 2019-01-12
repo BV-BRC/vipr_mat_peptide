@@ -39,6 +39,10 @@ sub setDebugAll {
     $debug_all = $debug;
 } # sub setDebugAll
 
+sub getDebugAll {
+    return $debug_all;
+} # sub getDebugAll
+
 
 =head2
   sub getPerlVersions finds out the version of the important BioPerl modules used
@@ -1214,9 +1218,14 @@ sub assemble_new_feature {
     if ($cds->has_tag('codon_start')) {
         my $codon_start = [$cds->get_tag_values('codon_start')];
         $codon_start = $codon_start->[0];
-        $debug && print STDERR "$subn: \$cds=".$cds->location->to_FTstring." has codon_start=$codon_start\n";
+        $debug && print STDERR "$subn: cds=".$cds->location->to_FTstring." has codon_start=$codon_start\n";
+        my $partial = 0;
+        $partial = ($errcode->{'partial_mat_peptide'}) ? $errcode->{'partial_mat_peptide'}
+            : 0;
+        $debug && print STDERR "$subn: feat=".$feat->location->to_FTstring." has partial=$partial\n";
         if ($cds->strand!=-1) {
-          if ($codon_start>=1 && $cds->location->start == $feat->location->start - $codon_start +1) {
+          if ( ($partial==1 || $partial==3) && 
+              $codon_start>=1 && $cds->location->start == $feat->location->start - $codon_start +1) {
         # codon_start is handled separately, adjust the start of the first mat_peptide, and set codon_start, V1.1.5 --10/9/2012
             if ($cds->location->isa('Bio::Location::Split')) {
                 my $locs = [ $cds->location->sub_Location ];
@@ -1230,7 +1239,8 @@ sub assemble_new_feature {
             $debug && print STDERR "$subn: After adding codon_start \$feat=".$feat->location->to_FTstring."\n";
           }
         } else {
-          if ($codon_start>=1 && $cds->location->end == $feat->location->end + $codon_start -1) {
+          if ( ($partial==1 || $partial==3) && 
+              $codon_start>=1 && $cds->location->end == $feat->location->end + $codon_start -1) {
         # codon_start is handled separately, adjust the start of the first mat_peptide, and set codon_start, V1.1.5 --10/9/2012
             if ($cds->location->isa('Bio::Location::Split')) {
                 my $locs = [ $cds->location->sub_Location ];
@@ -1404,10 +1414,13 @@ sub get_feature_id_desc {
     $debug && print STDERR "$subn: \$feat=\n".Dumper($feat)."end of \$feat\n";
     $debug && print STDERR "$subn: \$gene_symbol='$gene_symbol'\n";
     my (@id);
-    my $id = 0;
+    my $id = '';
     if ($cds) {
         # get the id from parent CDS feature, 1) GI, 2) NP
-        if ($cds->has_tag('db_xref')) {
+        if ( $cds->has_tag('protein_id')) {
+            @id = $cds->get_tag_values('protein_id');
+            $id = 'CDS='. $id[0] ."|";
+        } elsif ( $cds->has_tag('db_xref')) {
             @id = $cds->get_tag_values('db_xref');
             for my $id1 (@id) {
                if ($id1 =~ /^GI:/i) {
@@ -1415,10 +1428,6 @@ sub get_feature_id_desc {
                     last;
                }
             }
-        }
-        if (($id !~ /^CDS=GI:/) && $cds->has_tag('protein_id')) {
-            @id = $cds->get_tag_values('protein_id');
-            $id = 'CDS='. $id[0] ."|";
         }
 
         # In case $id is still empty
@@ -1510,7 +1519,8 @@ sub get_feature_id_desc {
     if (exists($errcode->{OutsideCDS}) && $errcode->{OutsideCDS}==1) {
        $desc = $desc. 'OutsideCDS=Y|';
     }
-    if (exists($errcode->{partial_mat_peptide}) && $errcode->{partial_mat_peptide}==1) {
+#    if (exists($errcode->{partial_mat_peptide}) && $errcode->{partial_mat_peptide}==1) { -2017Dec18
+    if (exists($errcode->{partial_mat_peptide}) && $errcode->{partial_mat_peptide}>0) {
        $desc = $desc. 'Partial=Y|';
     } else {
        $desc = $desc. 'Partial=N|'; # fixing the field --10/12/2012
@@ -2638,5 +2648,6 @@ sub check_program {
     
     return $errcode;
 } # sub check_program
+
 
 1;

@@ -1,0 +1,215 @@
+vipr_mat_peptide.pl Ver1.3.4
+Usage:  -d directory to find the input genome file
+        -i name of the input genbank file
+        -l name of input folder
+    E.g.: vipr_mat_peptide.pl -d ./ -i NC_001477.gb
+    E.g.: vipr_mat_peptide.pl -d ./ -l all_genomes/ 
+
+Viral families and species covered in Ver1.3.4 are:
+Families: 15, species: 99, strains: 168
+
+Family=Arenaviridae
+Arenaviridae	#1	species=2169991 	strain=----- 	ref=NC_005081 	"Argentinian mammarenavirus"
+
+Family=Caliciviridae
+Caliciviridae	#1	species=11976 	strain=----- 	ref=NC_001543 	"Rabbit hemorrhagic disease virus"
+Caliciviridae	#2	species=11978 	strain=----- 	ref=NC_001481 	"Feline calicivirus"
+Caliciviridae	#3	species=11983 	strain=----- 	ref=NC_001959 	"Norwalk virus"
+Caliciviridae	#4	species=11983 	strain=1246677 	ref=NC_008311 	"Norwalk virus"
+Caliciviridae	#5	species=35612 	strain=146073 	ref=NC_004541 	"Vesicular exanthema of swine virus"
+Caliciviridae	#6	species=33756 	strain=----- 	ref=NC_002615 	"European brown hare syndrome virus"
+Caliciviridae	#7	species=35612 	strain=----- 	ref=NC_002551 	"Vesicular exanthema of swine virus"
+Caliciviridae	#8	species=74724 	strain=----- 	ref=NC_004542 	"Canine calicivirus"
+
+Family=Coronaviridae
+Coronaviridae	#1	species=694014 	strain=11120 	ref=NC_001451 	"Avian coronavirus"
+Coronaviridae	#2	species=694003 	strain=11128 	ref=NC_003045 	"Betacoronavirus 1"
+Coronaviridae	#3	species=694005 	strain=11142 	ref=NC_001846 	"Murine coronavirus"
+Coronaviridae	#4	species=694005 	strain=11144 	ref=AC_000192 	"Murine coronavirus"
+Coronaviridae	#5	species=694014 	strain=11152 	ref=NC_010800 	"Avian coronavirus"
+Coronaviridae	#6	species=1335626 	strain=----- 	ref=NC_019843 	"Middle East respiratory syndrome-related coronavirus"
+Coronaviridae	#7	species=1913643 	strain=1384461 	ref=NC_022103 	"Bat coronavirus CDPHE15"
+Coronaviridae	#8	species=694009 	strain=227859 	ref=NC_004718 	"Severe acute respiratory syndrome-related coronavirus"
+Coronaviridae	#9	species=28295 	strain=----- 	ref=NC_003436 	"Porcine epidemic diarrhea virus"
+Coronaviridae	#10	species=290028 	strain=----- 	ref=NC_006577 	"Human coronavirus HKU1"
+Coronaviridae	#11	species=694003 	strain=----- 	ref=NC_003045 	"Betacoronavirus 1"
+Coronaviridae	#12	species=694005 	strain=----- 	ref=NC_001846 	"Murine coronavirus"
+Coronaviridae	#13	species=694009 	strain=----- 	ref=NC_004718 	"Severe acute respiratory syndrome-related coronavirus"
+Coronaviridae	#14	species=694014 	strain=----- 	ref=NC_010800 	"Avian coronavirus"
+
+Family=Filoviridae
+Family=Filoviridae 	No approved species found for family:Filoviridae
+
+Family=Flaviviridae
+Flaviviridae	#1	species=12637 	strain=11053 	ref=NC_001477 	"Dengue virus"
+Flaviviridae	#2	species=12637 	strain=11060 	ref=NC_001474 	"Dengue virus"
+Flaviviridae	#3	species=12637 	strain=11069 	ref=NC_001475 	"Dengue virus"
+Flaviviridae	#4	species=12637 	strain=11070 	ref=NC_002640 	"Dengue virus"
+Flaviviridae	#5	species=11072 	strain=----- 	ref=NC_001437 	"Japanese encephalitis virus"
+Flaviviridae	#6	species=11079 	strain=----- 	ref=NC_000943 	"Murray Valley encephalitis virus"
+Flaviviridae	#7	species=11080 	strain=----- 	ref=NC_007580 	"Saint Louis encephalitis virus"
+Flaviviridae	#8	species=11082 	strain=----- 	ref=NC_001563 	"West Nile virus"
+Flaviviridae	#9	species=11083 	strain=----- 	ref=NC_003687 	"Powassan virus"
+Flaviviridae	#10	species=11084 	strain=----- 	ref=NC_001672 	"Tick-borne encephalitis virus"
+Flaviviridae	#11	species=11085 	strain=----- 	ref=NC_003690 	"Langat virus"
+Flaviviridae	#12	species=11086 	strain=----- 	ref=NC_001809 	"Louping ill virus"
+Flaviviridae	#13	species=11089 	strain=----- 	ref=NC_002031 	"Yellow fever virus"
+Flaviviridae	#14	species=2170082 	strain=11096 	ref=NC_002657 	"Pestivirus C"
+Flaviviridae	#15	species=2170080 	strain=11099 	ref=NC_001461 	"Pestivirus A"
+Flaviviridae	#16	species=11103 	strain=----- 	ref=NC_004102 	"Hepacivirus C"
+Flaviviridae	#17	species=12637 	strain=----- 	ref=NC_001477 	"Dengue virus"
+Flaviviridae	#18	species=1281454 	strain=----- 	ref=NC_021153 	"Rodent hepacivirus"
+Flaviviridae	#19	species=1307800 	strain=----- 	ref=NC_001837 	"Pegivirus A"
+Flaviviridae	#20	species=1321391 	strain=----- 	ref=NC_021154 	"Rodent pegivirus"
+Flaviviridae	#21	species=155905 	strain=----- 	ref=NC_003678 	"Pestivirus Giraffe-1"
+Flaviviridae	#22	species=161675 	strain=----- 	ref=NC_003996 	"Tamana bat virus"
+Flaviviridae	#23	species=33743 	strain=172148 	ref=NC_004355 	"Kyasanur Forest disease virus"
+Flaviviridae	#24	species=218849 	strain=----- 	ref=NC_005064 	"Kamiti River virus"
+Flaviviridae	#25	species=11103 	strain=31646 	ref=NC_004102 	"Hepacivirus C"
+Flaviviridae	#26	species=11103 	strain=31647 	ref=NC_004102 	"Hepacivirus C"
+Flaviviridae	#27	species=11103 	strain=31649 	ref=NC_004102 	"Hepacivirus C"
+Flaviviridae	#28	species=11103 	strain=31650 	ref=NC_004102 	"Hepacivirus C"
+Flaviviridae	#29	species=11103 	strain=31655 	ref=NC_004102 	"Hepacivirus C"
+Flaviviridae	#30	species=31658 	strain=----- 	ref=NC_001564 	"Cell fusing agent virus"
+Flaviviridae	#31	species=11103 	strain=356426 	ref=NC_004102 	"Hepacivirus C"
+Flaviviridae	#32	species=2170083 	strain=358764 	ref=NC_003679 	"Pestivirus D"
+Flaviviridae	#33	species=390844 	strain=----- 	ref=NC_008604 	"Culex flavivirus"
+Flaviviridae	#34	species=390845 	strain=----- 	ref=NC_012932 	"Aedes flavivirus"
+Flaviviridae	#35	species=39113 	strain=----- 	ref=NC_001655 	"Hepatitis GB virus B"
+Flaviviridae	#36	species=1985356 	strain=54290 	ref=NC_001710 	"Pegivirus C"
+Flaviviridae	#37	species=2170081 	strain=54315 	ref=NC_002032 	"Pestivirus B"
+Flaviviridae	#38	species=64280 	strain=----- 	ref=NC_003676 	"Apoi virus"
+Flaviviridae	#39	species=64285 	strain=----- 	ref=NC_003675 	"Rio Bravo virus"
+Flaviviridae	#40	species=64286 	strain=----- 	ref=NC_006551 	"Usutu virus"
+Flaviviridae	#41	species=64290 	strain=----- 	ref=NC_012534 	"Bagaza virus"
+Flaviviridae	#42	species=64300 	strain=----- 	ref=NC_003635 	"Modoc virus"
+Flaviviridae	#43	species=64311 	strain=----- 	ref=NC_012533 	"Kedougou virus"
+Flaviviridae	#44	species=64312 	strain=----- 	ref=NC_004119 	"Montana myotis leukoencephalitis virus"
+Flaviviridae	#45	species=64320 	strain=----- 	ref=NC_012532 	"Zika virus"
+
+Family=Hantaviridae
+Hantaviridae	#1	species=1980471 	strain=----- 	ref=NC_005219 	"Hantaan orthohantavirus"
+
+Family=Hepeviridae
+Family=Hepeviridae 	No approved species found for family:Hepeviridae
+
+Family=Herpesviridae
+Family=Herpesviridae 	No approved species found for family:Herpesviridae
+
+Family=Paramyxoviridae
+Family=Paramyxoviridae 	No approved species found for family:Paramyxoviridae
+
+Family=Phenuiviridae
+Phenuiviridae	#1	species=1933190 	strain=----- 	ref=NC_018138 	"SFTS phlebovirus"
+Phenuiviridae	#2	species=1933191 	strain=----- 	ref=NC_005220 	"Uukuniemi phlebovirus"
+
+Family=Picornaviridae
+Picornaviridae	#1	species=686985 	strain=1002918 	ref=NC_004451 	"Sapelovirus B"
+Picornaviridae	#2	species=686984 	strain=1002921 	ref=NC_003987 	"Sapelovirus A"
+Picornaviridae	#3	species=138949 	strain=103915 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#4	species=106966 	strain=----- 	ref=NC_004441 	"Enterovirus G"
+Picornaviridae	#5	species=1074863 	strain=----- 	ref=NC_015940 	"Bat picornavirus 1"
+Picornaviridae	#6	species=1074864 	strain=----- 	ref=NC_015941 	"Bat picornavirus 2"
+Picornaviridae	#7	species=1074865 	strain=----- 	ref=NC_015934 	"Bat picornavirus 3"
+Picornaviridae	#8	species=1108810 	strain=----- 	ref=NC_016156 	"Feline picornavirus"
+Picornaviridae	#9	species=1330068 	strain=1150861 	ref=NC_021178 	"Cadicivirus A"
+Picornaviridae	#10	species=118140 	strain=----- 	ref=NC_003985 	"Teschovirus A"
+Picornaviridae	#11	species=138949 	strain=12060 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#12	species=138949 	strain=12062 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#13	species=12064 	strain=----- 	ref=NC_001859 	"Enterovirus E"
+Picornaviridae	#14	species=138949 	strain=12067 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#15	species=12092 	strain=----- 	ref=NC_001489 	"Hepatovirus A"
+Picornaviridae	#16	species=1821749 	strain=12104 	ref=NC_001479 	"Cardiovirus A"
+Picornaviridae	#17	species=12110 	strain=----- 	ref=NC_004004 	"Foot-and-mouth disease virus"
+Picornaviridae	#18	species=12110 	strain=12116 	ref=NC_002554 	"Foot-and-mouth disease virus"
+Picornaviridae	#19	species=12110 	strain=12118 	ref=NC_004004 	"Foot-and-mouth disease virus"
+Picornaviridae	#20	species=147712 	strain=12131 	ref=NC_001490 	"Rhinovirus B"
+Picornaviridae	#21	species=2031165 	strain=1294177 	ref=NC_021482 	"Parechovirus C"
+Picornaviridae	#22	species=72149 	strain=1313215 	ref=NC_001918 	"Aichivirus A"
+Picornaviridae	#23	species=1330491 	strain=----- 	ref=NC_012800 	"Cosavirus A"
+Picornaviridae	#24	species=1330520 	strain=----- 	ref=NC_021220 	"Enterovirus F"
+Picornaviridae	#25	species=1330521 	strain=----- 	ref=NC_010415 	"Enterovirus J"
+Picornaviridae	#26	species=138948 	strain=----- 	ref=NC_001612 	"Enterovirus A"
+Picornaviridae	#27	species=138949 	strain=----- 	ref=NC_001472 	"Enterovirus B"
+Picornaviridae	#28	species=138950 	strain=----- 	ref=NC_002058 	"Enterovirus C"
+Picornaviridae	#29	species=138951 	strain=----- 	ref=AY426531 	"Enterovirus D"
+Picornaviridae	#30	species=1914568 	strain=1398149 	ref=NC_022332 	"Potamipivirus A"
+Picornaviridae	#31	species=1659771 	strain=1416021 	ref=NC_022802 	"Sakobuvirus A"
+Picornaviridae	#32	species=1431460 	strain=1431464 	ref=NC_018668 	"Hunnivirus A"
+Picornaviridae	#33	species=1452516 	strain=----- 	ref=NC_023422 	"Caprine kobuvirus"
+Picornaviridae	#34	species=1476554 	strain=----- 	ref=NC_004421 	"Bovine kobuvirus"
+Picornaviridae	#35	species=147711 	strain=----- 	ref=NC_001617 	"Rhinovirus A"
+Picornaviridae	#36	species=147712 	strain=----- 	ref=NC_001490 	"Rhinovirus B"
+Picornaviridae	#37	species=1483681 	strain=----- 	ref=NC_023988 	"Tortoise rafivirus A"
+Picornaviridae	#38	species=1511783 	strain=1511784 	ref=NC_018226 	"Pasivirus A"
+Picornaviridae	#39	species=138949 	strain=172038 	ref=NC_010411 	"Enterovirus B"
+Picornaviridae	#40	species=1803957 	strain=172314 	ref=NC_003976 	"Parechovirus B"
+Picornaviridae	#41	species=1755588 	strain=----- 	ref=NC_023861 	"Sicinivirus A"
+Picornaviridae	#42	species=1803956 	strain=----- 	ref=NC_001897 	"Parechovirus A"
+Picornaviridae	#43	species=184753 	strain=----- 	ref=NC_010384 	"Simian picornavirus strain N125"
+Picornaviridae	#44	species=2003650 	strain=----- 	ref=NC_012802 	"Cosavirus D"
+Picornaviridae	#45	species=2003651 	strain=----- 	ref=NC_012798 	"Cosavirus E"
+Picornaviridae	#46	species=1821750 	strain=204711 	ref=NC_001366 	"Cardiovirus B"
+Picornaviridae	#47	species=138949 	strain=222887 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#48	species=138949 	strain=222889 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#49	species=1330520 	strain=263531 	ref=NC_008714 	"Enterovirus F"
+Picornaviridae	#50	species=310907 	strain=----- 	ref=NC_003988 	"Enterovirus H"
+Picornaviridae	#51	species=138949 	strain=318562 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#52	species=138949 	strain=318563 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#53	species=138949 	strain=325446 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#54	species=138949 	strain=325447 	ref=NC_009887 	"Enterovirus B"
+Picornaviridae	#55	species=138951 	strain=42789 	ref=AY426531 	"Enterovirus D"
+Picornaviridae	#56	species=1821750 	strain=434309 	ref=NC_009448 	"Cardiovirus B"
+Picornaviridae	#57	species=138948 	strain=442855 	ref=NC_010412 	"Enterovirus A"
+Picornaviridae	#58	species=138948 	strain=442858 	ref=NC_010413 	"Enterovirus A"
+Picornaviridae	#59	species=463676 	strain=----- 	ref=NC_009996 	"Rhinovirus C"
+Picornaviridae	#60	species=47000 	strain=----- 	ref=NC_003982 	"Equine rhinitis A virus"
+Picornaviridae	#61	species=1330066 	strain=471728 	ref=NC_009891 	"Aquamavirus A"
+Picornaviridae	#62	species=138949 	strain=47506 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#63	species=1821750 	strain=511755 	ref=NC_010810 	"Cardiovirus B"
+Picornaviridae	#64	species=1298633 	strain=569195 	ref=NC_011829 	"Aichivirus C"
+Picornaviridae	#65	species=138949 	strain=582384 	ref=NC_013114 	"Enterovirus B"
+Picornaviridae	#66	species=138949 	strain=582385 	ref=NC_013115 	"Enterovirus B"
+Picornaviridae	#67	species=2003649 	strain=586420 	ref=NC_012801 	"Cosavirus B"
+Picornaviridae	#68	species=1330524 	strain=651733 	ref=NC_012957 	"Salivirus A"
+Picornaviridae	#69	species=686983 	strain=----- 	ref=NC_006553 	"Avian sapelovirus"
+Picornaviridae	#70	species=686984 	strain=----- 	ref=NC_003987 	"Sapelovirus A"
+Picornaviridae	#71	species=686985 	strain=----- 	ref=NC_004451 	"Sapelovirus B"
+Picornaviridae	#72	species=693066 	strain=----- 	ref=NC_010354 	"Bovine rhinitis B virus"
+Picornaviridae	#73	species=70796 	strain=----- 	ref=NC_003990 	"Tremovirus A"
+Picornaviridae	#74	species=72149 	strain=----- 	ref=NC_001918 	"Aichivirus A"
+Picornaviridae	#75	species=138950 	strain=861519 	ref=NC_014336 	"Enterovirus C"
+Picornaviridae	#76	species=1511803 	strain=871699 	ref=NC_014411 	"Passerivirus A"
+Picornaviridae	#77	species=1511781 	strain=871700 	ref=NC_014412 	"Oscivirus A"
+Picornaviridae	#78	species=1511781 	strain=871701 	ref=NC_014413 	"Oscivirus A"
+Picornaviridae	#79	species=928289 	strain=----- 	ref=NC_015626 	"Pigeon picornavirus B"
+
+Family=Poxviridae
+Family=Poxviridae 	No approved species found for family:Poxviridae
+
+Family=Reoviridae
+Family=Reoviridae 	No approved species found for family:Reoviridae
+
+Family=Rhabdoviridae
+Family=Rhabdoviridae 	No approved species found for family:Rhabdoviridae
+
+Family=Togaviridae
+Togaviridae	#1	species=11020 	strain=----- 	ref=NC_001786 	"Barmah Forest virus"
+Togaviridae	#2	species=11021 	strain=----- 	ref=NC_003899 	"Eastern equine encephalitis virus"
+Togaviridae	#3	species=11024 	strain=----- 	ref=NC_012561 	"Highlands J virus"
+Togaviridae	#4	species=11029 	strain=----- 	ref=NC_001544 	"Ross River virus"
+Togaviridae	#5	species=11033 	strain=----- 	ref=NC_003215 	"Semliki Forest virus"
+Togaviridae	#6	species=11034 	strain=----- 	ref=NC_001547 	"Sindbis virus"
+Togaviridae	#7	species=11036 	strain=----- 	ref=NC_001449 	"Venezuelan equine encephalitis virus"
+Togaviridae	#8	species=11039 	strain=----- 	ref=NC_003908 	"Western equine encephalitis virus"
+Togaviridae	#9	species=11041 	strain=----- 	ref=NC_001545 	"Rubella virus"
+Togaviridae	#10	species=1440170 	strain=----- 	ref=NC_023812 	"Madariaga virus"
+Togaviridae	#11	species=2169701 	strain=----- 	ref=NC_001512 	"Onyong-nyong virus"
+Togaviridae	#12	species=37124 	strain=----- 	ref=NC_004162 	"Chikungunya virus"
+Togaviridae	#13	species=44158 	strain=----- 	ref=NC_003900 	"Aura virus"
+Togaviridae	#14	species=48544 	strain=----- 	ref=NC_013528 	"Fort Morgan virus"
+Togaviridae	#15	species=59300 	strain=----- 	ref=NC_006558 	"Getah virus"
+Togaviridae	#16	species=59301 	strain=----- 	ref=NC_003417 	"Mayaro virus"
+Togaviridae	#17	species=84589 	strain=78540 	ref=NC_003433 	"Salmon pancreas disease virus"
+Togaviridae	#18	species=84589 	strain=----- 	ref=NC_003930 	"Salmon pancreas disease virus"
+

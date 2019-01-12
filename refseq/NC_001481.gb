@@ -1,13 +1,13 @@
-LOCUS       NC_001481               7683 bp ss-RNA     linear   VRL 08-DEC-2008
+LOCUS       NC_001481               7683 bp ss-RNA     linear   VRL 13-AUG-2018
 DEFINITION  Feline calicivirus, complete genome.
 ACCESSION   NC_001481
-VERSION     NC_001481.2  GI:28212283
-DBLINK      BioProject: PRJNA14877
-KEYWORDS    .
+VERSION     NC_001481.2
+DBLINK      BioProject: PRJNA485481
+KEYWORDS    RefSeq.
 SOURCE      Feline calicivirus
   ORGANISM  Feline calicivirus
-            Viruses; ssRNA positive-strand viruses, no DNA stage;
-            Caliciviridae; Vesivirus.
+            Viruses; ssRNA viruses; ssRNA positive-strand viruses, no DNA
+            stage; Caliciviridae; Vesivirus.
 REFERENCE   1  (bases 1 to 7683)
   AUTHORS   Sosnovtsev,S. and Green,K.Y.
   TITLE     RNA transcripts derived from a cloned full-length copy of the
@@ -19,9 +19,9 @@ REFERENCE   2  (bases 1 to 7683)
   TITLE     Direct Submission
   JOURNAL   Submitted (01-AUG-2000) National Center for Biotechnology
             Information, NIH, Bethesda, MD 20894, USA
-COMMENT     REVIEWED REFSEQ: This record has been curated by NCBI staff. The
-            reference sequence was derived from L40021.
-            On Feb 5, 2003 this sequence version replaced gi:9626698.
+COMMENT     VALIDATED REFSEQ: This record has undergone validation or
+            preliminary review. The reference sequence was derived from L40021.
+            On Feb 5, 2003 this sequence version replaced NC_001481.1.
             COMPLETENESS: full length.
 FEATURES             Location/Qualifiers
      source          1..7683
@@ -43,7 +43,6 @@ FEATURES             Location/Qualifiers
                      /codon_start=1
                      /product="polyprotein"
                      /protein_id="NP_783196.1"
-                     /db_xref="GI:28212284"
                      /db_xref="GeneID:1502252"
                      /translation="MSQTLSFVLKTHSVRKDFVHSVKRTLQRRRDLQYLYNKLSRPIR
                      AEACPSCASYDVCPNCTSGSIPDDGSSKGQIPSWEDVTKTSTYSLLLSEDTSDELHPD
@@ -84,7 +83,6 @@ FEATURES             Location/Qualifiers
                      /note="This leader peptide is not conserved; the cleavage
                      site was confirmed by direct sequencing"
                      /protein_id="NP_783303.1"
-                     /db_xref="GI:28268481"
      mat_peptide     158..1012
                      /locus_tag="FCVgp1"
                      /product="p32"
@@ -101,7 +99,6 @@ FEATURES             Location/Qualifiers
                      C-terminal cleavage sites were confirmed by direct
                      sequencing"
                      /protein_id="NP_783304.1"
-                     /db_xref="GI:28268482"
      mat_peptide     1013..2074
                      /locus_tag="FCVgp1"
                      /product="NTPase"
@@ -109,7 +106,6 @@ FEATURES             Location/Qualifiers
                      probable ortholog of the 2C protein of picornaviruses;
                      p39"
                      /protein_id="NP_783305.1"
-                     /db_xref="GI:28268483"
      mat_peptide     2075..3232
                      /locus_tag="FCVgp1"
                      /product="p30-VPg"
@@ -118,7 +114,6 @@ FEATURES             Location/Qualifiers
                      domain is thought to function as a membrane anchor for the
                      C-terminal (VPg) domain; p43"
                      /protein_id="NP_783309.1"
-                     /db_xref="GI:28268487"
      mat_peptide     2075..2899
                      /locus_tag="FCVgp1"
                      /product="p30"
@@ -127,13 +122,11 @@ FEATURES             Location/Qualifiers
                      polyprotein; detected in FCV membranous replication
                      complexes"
                      /protein_id="NP_783306.1"
-                     /db_xref="GI:28268484"
      mat_peptide     2900..3232
                      /locus_tag="FCVgp1"
                      /product="VPg"
                      /note="p13"
                      /protein_id="NP_783307.1"
-                     /db_xref="GI:28268485"
      mat_peptide     3233..5308
                      /locus_tag="FCVgp1"
                      /product="Pro-Pol"
@@ -144,12 +137,10 @@ FEATURES             Location/Qualifiers
                      production of viable virus. These domains exist in the
                      form of separate proteins in RHDV and SHV"
                      /protein_id="NP_783308.1"
-                     /db_xref="GI:28268486"
      mat_peptide     <4055..5308
                      /locus_tag="FCVgp1"
                      /product="RNA-dependent RNA polymerase"
                      /protein_id="NP_783310.1"
-                     /db_xref="GI:28268488"
      gene            5314..7320
                      /locus_tag="FCVgp2"
                      /db_xref="GeneID:1502251"
@@ -161,7 +152,6 @@ FEATURES             Location/Qualifiers
                      /codon_start=1
                      /product="capsid protein precursor"
                      /protein_id="NP_783197.1"
-                     /db_xref="GI:28212285"
                      /db_xref="GeneID:1502251"
                      /translation="MCSTCANVLKYYNWDPHFKLVINPNKFLSIGFCDNPLMCCYPEL
                      LPEFGTVWDCDQSPLQIYLESILGDDEWSSTYEAIDPVVPPMHWNEAGKIFQPHPGVL
@@ -179,12 +169,10 @@ FEATURES             Location/Qualifiers
                      /locus_tag="FCVgp2"
                      /product="leader of the capsid (LC)"
                      /protein_id="NP_783312.1"
-                     /db_xref="GI:28268490"
      mat_peptide     5686..7317
                      /locus_tag="FCVgp2"
                      /product="capsid protein"
                      /protein_id="NP_783311.1"
-                     /db_xref="GI:28268489"
      gene            7317..7637
                      /locus_tag="FCVgp3"
                      /db_xref="GeneID:1502253"
@@ -194,7 +182,6 @@ FEATURES             Location/Qualifiers
                      /codon_start=1
                      /product="hypothetical protein"
                      /protein_id="NP_783198.1"
-                     /db_xref="GI:28212286"
                      /db_xref="GeneID:1502253"
                      /translation="MNSILGLIDTVTNTIGKAQQIELDKAALGQQRELALQRMNLDRQ
                      ALNNQVEQFNKILEQRVQGPLQSVRLARAAGFRVDPYSYTNQNFYDDQLNAIRLSYRN

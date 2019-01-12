@@ -56,6 +56,7 @@ my $debug = 0;
             'Reoviridae'      => [],
             'Rhabdoviridae'   => [],
             'Togaviridae'     => [],
+            'usage'     => [],
                    };
 
 ## //EXECUTE// ##
@@ -151,12 +152,16 @@ if ($infile) {
         my $in  = Bio::SeqIO->new( -file => "$dirIn/$acc", -format => 'genbank' );
         $debug && print STDERR "$exe_name: \$exe_dir=$exe_dir \$in=$in\n";
         my $inseq = $in->next_seq();
+        if (!$inseq) {
+            print STDERR "$exe_name: \$exe_dir=$exe_dir #$j \$acc=$acc, Can't find inseq. Skip.\n";
+            next;
+        }
         $debug && print STDERR "$exe_name: \$exe_dir=$exe_dir \$inseq=$inseq\n";
         my $taxid = $inseq->species->ncbi_taxid;
 #        $debug && print STDERR "$exe_name: \$taxid=$taxid \$exe_dir=$exe_dir\n";
         my $ti = Annotate_Def::getTaxonInfo( $taxid, $exe_dir);
         $debug && print STDERR "$exe_name: \$acc=$acc \$taxid=$taxid \$ti='@$ti'\n";
-        my $fam = (defined($ti->[6])) ? $ti->[6] : 'unknown';
+        my $fam = (defined($ti->[8])) ? $ti->[8] : 'unknown';
 
         $debug && print STDERR "$exe_name: \$acc=$acc \$fam=$fam \$FAMILY=$FAMILY\n";
         push @{$families->{$fam}}, [$#{$families->{$fam}}+1, $acc];
@@ -209,17 +214,18 @@ for my $fam ( sort keys %$families) {
 
         $timeStart = time();
         my $acc = $accs->[$j]->[1];
+        my $faaFile = '';
         my $result = '';
         my $err = '';
         my $msg1 = sprintf (" Testing #%-4s %-15s %-13s", "$count,", "$fam,", $acc);
-        if (!$FAMILY || $fam eq $FAMILY) {
-            ($result, $err) = Annotate_Test::run_vipr_mat_peptide( $acc, $dirIn, $exe_dir, $removeAnnotationResult);
+        if (!$FAMILY || $fam eq $FAMILY || $fam eq 'usage') {
+            ($faaFile, $err) = Annotate_Test::run_vipr_mat_peptide( $acc, $dirIn, $exe_dir, $removeAnnotationResult);
         } else {
             $err = "Family not requested. Skip";
         }
 
         if (!$err) {
-            ($result, $err) = Annotate_Test::cmp_vipr_mat_peptide( $acc, $result, $dirIn, $dirOut);
+            ($result, $err) = Annotate_Test::cmp_vipr_mat_peptide( $acc, $faaFile, $dirIn, $dirOut);
         }
         $debug && print STDERR "$exe_name: \$acc='$acc' New:OLd \$result='$result' \$err='$err'\n";
 

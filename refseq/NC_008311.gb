@@ -1,26 +1,42 @@
-LOCUS       NC_008311               7382 bp ss-RNA     linear   VRL 04-JUN-2012
-DEFINITION  Murine norovirus 1, complete genome.
+LOCUS       NC_008311               7382 bp ss-RNA     linear   VRL 13-AUG-2018
+DEFINITION  Norovirus GV, complete genome.
 ACCESSION   NC_008311
-VERSION     NC_008311.1  GI:113478394
-DBLINK      BioProject: PRJNA17577
-KEYWORDS    .
-SOURCE      Murine norovirus 1
-  ORGANISM  Murine norovirus 1
-            Viruses; ssRNA positive-strand viruses, no DNA stage;
-            Caliciviridae; Norovirus.
-REFERENCE   1  (bases 1 to 7382)
+VERSION     NC_008311.1
+DBLINK      BioProject: PRJNA485481
+KEYWORDS    RefSeq.
+SOURCE      Norovirus GV
+  ORGANISM  Norovirus GV
+            Viruses; ssRNA viruses; ssRNA positive-strand viruses, no DNA
+            stage; Caliciviridae; Norovirus.
+REFERENCE   1  (sites)
+  AUTHORS   McFadden,N., Bailey,D., Carrara,G., Benson,A., Chaudhry,Y.,
+            Shortland,A., Heeney,J., Yarovinsky,F., Simmonds,P., Macdonald,A.
+            and Goodfellow,I.
+  TITLE     Norovirus regulation of the innate immune response and apoptosis
+            occurs via the product of the alternative open reading frame 4
+  JOURNAL   PLoS Pathog. 7 (12), E1002413 (2011)
+   PUBMED   22174679
+  REMARK    Publication Status: Online-Only
+REFERENCE   2  (bases 1 to 7382)
+  AUTHORS   Sosnovtsev,S.V., Belliot,G., Chang,K.O., Prikhodko,V.G.,
+            Thackray,L.B., Wobus,C.E., Karst,S.M., Virgin,H.W. and Green,K.Y.
+  TITLE     Cleavage map and proteolytic processing of the murine norovirus
+            nonstructural polyprotein in infected cells
+  JOURNAL   J. Virol. 80 (16), 7816-7831 (2006)
+   PUBMED   16873239
+REFERENCE   3  (bases 1 to 7382)
   AUTHORS   Wobus,C.E., Karst,S.M., Thackray,L.B., Chang,K.O., Sosnovtsev,S.V.,
             Belliot,G., Krug,A., Mackenzie,J.M., Green,K.Y. and Virgin,H.W.
   TITLE     Replication of Norovirus in cell culture reveals a tropism for
             dendritic cells and macrophages
   JOURNAL   PLoS Biol. 2 (12), E432 (2004)
    PUBMED   15562321
-REFERENCE   2  (bases 1 to 7382)
+REFERENCE   4  (bases 1 to 7382)
   CONSRTM   NCBI Genome Project
   TITLE     Direct Submission
   JOURNAL   Submitted (30-AUG-2006) National Center for Biotechnology
             Information, NIH, Bethesda, MD 20894, USA
-REFERENCE   3  (bases 1 to 7382)
+REFERENCE   5  (bases 1 to 7382)
   AUTHORS   Wobus,C.E., Karst,S.M., Thackray,L.B., Chang,K.-O.,
             Sosnovtsev,S.V., Belliot,G., Krug,A., Mackenzie,J.M., Green,K.Y.
             and Virgin,H.W. IV.
@@ -33,12 +49,12 @@ COMMENT     REVIEWED REFSEQ: This record has been curated by NCBI staff. The
             COMPLETENESS: full length.
 FEATURES             Location/Qualifiers
      source          1..7382
-                     /organism="Murine norovirus 1"
+                     /organism="Norovirus GV"
                      /mol_type="genomic RNA"
                      /isolate="Mu/NoV/GV/MNV1/2002/USA"
                      /isolation_source="brain of interferon-alpha/beta/gamma
                      receptor knock-out mouse"
-                     /db_xref="taxon:223997"
+                     /db_xref="taxon:1246677"
                      /clone="CW1"
                      /sub_clone="P3"
                      /country="USA"
@@ -46,15 +62,18 @@ FEATURES             Location/Qualifiers
                      times"
      5'UTR           1..5
      gene            6..5069
-                     /locus_tag="MNV1_gp1"
+                     /gene="ORF1"
+                     /locus_tag="NoVGV_gp1"
+                     /old_locus_tag="MNV1_gp1"
                      /db_xref="GeneID:4246735"
      CDS             6..5069
-                     /locus_tag="MNV1_gp1"
+                     /gene="ORF1"
+                     /locus_tag="NoVGV_gp1"
+                     /old_locus_tag="MNV1_gp1"
                      /note="ORF1; encodes helicase, protease, and polymerase"
                      /codon_start=1
-                     /product="polyprotein"
+                     /product="nonstructural polyprotein"
                      /protein_id="YP_720001.1"
-                     /db_xref="GI:113478395"
                      /db_xref="GeneID:4246735"
                      /translation="MRMATPSSAPSVRNTEKRKNKKASSKASVSFGAPSPLSSESEDE
                      INYMTPPEQEAQPGALAALHAEGPLAGLPVTRSDARVLIFNEWEERKKSDPWLRLDMS
@@ -87,53 +106,77 @@ FEATURES             Location/Qualifiers
                      PGHAQRPSQLMALLGEAAMHGEKYYRTVASRVSKEAAQSGIEMVVPRHRSVLRWVRFG
                      TMDAETPQERSAVFVNEDE"
      mat_peptide     6..1028
-                     /locus_tag="MNV1_gp1"
-                     /product="NS1-2"
-                     /note="N-terminal cleavage product"
+                     /gene="ORF1"
+                     /locus_tag="NoVGV_gp1"
+                     /old_locus_tag="MNV1_gp1"
+                     /product="p48"
+                     /note="NS1-2; N-terminal cleavage product; N-terminal
+                     leader p48; 2A2-2B-like membrane protein; distant homolog
+                     of H-rev107-like parechovirus 2a2"
                      /protein_id="YP_724455.1"
-                     /db_xref="GI:113478398"
      mat_peptide     1029..2120
-                     /locus_tag="MNV1_gp1"
-                     /product="NS3"
-                     /note="NTPase"
+                     /gene="ORF1"
+                     /locus_tag="NoVGV_gp1"
+                     /old_locus_tag="MNV1_gp1"
+                     /product="NTPase"
+                     /note="NS3; 2C-L; probable ortholog of the 2C protein of
+                     picornaviruses; the calicivirus NTPase was found in
+                     membranous replication complexes"
                      /protein_id="YP_724457.1"
-                     /db_xref="GI:113478400"
      mat_peptide     2121..2615
-                     /locus_tag="MNV1_gp1"
-                     /product="3A-like protein"
-                     /note="NS4"
+                     /gene="ORF1"
+                     /locus_tag="NoVGV_gp1"
+                     /old_locus_tag="MNV1_gp1"
+                     /product="p22"
+                     /note="NS4;3A-like protein; 3A-L; located in the
+                     polyprotein between NTPase and VPg; second most variable
+                     region of the calicivirus polyprotein; the FCV ortholog
+                     was detected in membranous replication complexes"
                      /protein_id="YP_724458.1"
-                     /db_xref="GI:113478401"
      mat_peptide     2616..2987
-                     /locus_tag="MNV1_gp1"
-                     /product="NS5"
-                     /note="VPg"
+                     /gene="ORF1"
+                     /locus_tag="NoVGV_gp1"
+                     /old_locus_tag="MNV1_gp1"
+                     /product="VPg"
+                     /note="NS5; For Southampton calicivirus, both N-terminal
+                     and C-terminal cleavage sites have been confirmed by
+                     direct sequencing. In caliciviruses, VPg can also exist in
+                     the form of precursor with the upstream protein which is
+                     thought to function as a membrane anchor"
                      /protein_id="YP_724459.1"
-                     /db_xref="GI:113478402"
      mat_peptide     2988..3536
-                     /locus_tag="MNV1_gp1"
-                     /product="3C-PRO"
-                     /note="can exist in the form of a stable NS6-NS7
-                     precursor; Chymotrypsin-like cysteine proteinase"
+                     /gene="ORF1"
+                     /locus_tag="NoVGV_gp1"
+                     /old_locus_tag="MNV1_gp1"
+                     /product="Pro"
+                     /note="NS6;3C-PRO; Chymotrypsin-like cysteine proteinase;
+                     for Southampton calicivirus, both N-terminal and
+                     C-terminal cleavage sites have been confirmed by direct
+                     sequencing; can exist in the form of a stable NS6-NS7
+                     precursor"
                      /protein_id="YP_724460.1"
-                     /db_xref="GI:113478403"
      mat_peptide     3537..5066
-                     /locus_tag="MNV1_gp1"
-                     /product="NS7"
-                     /note="RNA-dependent RNA polymerase; can exist as a stable
-                     NS6-NS7 precursor; Pol"
+                     /gene="ORF1"
+                     /locus_tag="NoVGV_gp1"
+                     /old_locus_tag="MNV1_gp1"
+                     /product="RdRp"
+                     /note="NS7; Pol; RNA-dependent RNA polymerase; can exist
+                     as a stable NS6-NS7 precursor"
                      /protein_id="YP_724456.1"
-                     /db_xref="GI:113478399"
      gene            5056..6681
-                     /locus_tag="MNV1_gp2"
+                     /gene="ORF2"
+                     /locus_tag="NoVGV_gp2"
+                     /old_locus_tag="MNV1_gp2"
                      /db_xref="GeneID:4246736"
      CDS             5056..6681
-                     /locus_tag="MNV1_gp2"
-                     /note="formerly known as 'ORF2 protein'"
+                     /gene="ORF2"
+                     /locus_tag="NoVGV_gp2"
+                     /old_locus_tag="MNV1_gp2"
+                     /note="formerly known as 'ORF2 protein'; capsid protein
+                     VP1"
                      /codon_start=1
-                     /product="capsid protein VP1"
+                     /product="VP1"
                      /protein_id="YP_720002.1"
-                     /db_xref="GI:113478396"
                      /db_xref="GeneID:4246736"
                      /translation="MRMSDGAAPKANGSEASGQDLVPAAVEQAVPIQPVAGAALAAPA
                      AGQINQIDPWIFQNFVQCPLGEFSISPRNTPGEILFDLALGPGLNPYLAHLSAMYTGW
@@ -146,33 +189,39 @@ FEATURES             Location/Qualifiers
                      CALPQEFVSWFASNAFTVQSEALLLRYRNTLTGQLLFECKLYNEGYIALSYSGSGPLT
                      FPTDGIFEVVSWVPRLYQLASVGSLATGRMLKQ"
      gene            5069..5710
-                     /locus_tag="MNV1_gp4"
+                     /gene="ORF4"
+                     /locus_tag="NoVGV_gp4"
+                     /old_locus_tag="MNV1_gp4"
                      /db_xref="GeneID:12979196"
      CDS             5069..5710
-                     /locus_tag="MNV1_gp4"
-                     /note="VF1, formerly called ORF4; Virulence factor 1 has
-                     been added by NCBI Staff with the kind help of Dr. David
-                     Karlin(Department of Zoology,  University of Oxford, UK)"
+                     /gene="ORF4"
+                     /locus_tag="NoVGV_gp4"
+                     /old_locus_tag="MNV1_gp4"
+                     /note="formerly called ORF4; Virulence factor 1 has been
+                     added by NCBI Staff with the kind help of Dr. David
+                     Karlin(Department of Zoology, University of Oxford, UK)."
                      /codon_start=1
-                     /product="virulence factor 1"
+                     /product="VF1"
                      /protein_id="YP_006390081.1"
-                     /db_xref="GI:388683808"
                      /db_xref="GeneID:12979196"
                      /translation="MAQRQKPMALRPAARILFLPPLNRPSPFNPWLARLLPPPPPGKL
                      TKLTPGSSKILSSAPLVSFPSRLETPQVKYCLIWPSGQGLTPTLPTSQPCTPAGLGTW
                      RFSWSSPAMPLLLARWLLPLYHPIFPRGHSLLPRSHASHMSCVMCAPWSPFNSLFLMC
                      VESFGMLPRIKRNLCAWFACCTRHSAQTARVMSLLWSLAAFFLSRRLISILST"
      gene            6681..7307
-                     /locus_tag="MNV1_gp3"
+                     /gene="ORF3"
+                     /locus_tag="NoVGV_gp3"
+                     /old_locus_tag="MNV1_gp3"
                      /db_xref="GeneID:4246737"
      CDS             6681..7307
-                     /locus_tag="MNV1_gp3"
-                     /note="small basic protein; formerly known as 'ORF3
-                     protein'; minor capsid protein VP2"
+                     /gene="ORF3"
+                     /locus_tag="NoVGV_gp3"
+                     /old_locus_tag="MNV1_gp3"
+                     /note="minor capsid protein VP2; formerly known as 'ORF3
+                     protein'; small basic protein"
                      /codon_start=1
-                     /product="ORF3 protein"
+                     /product="VP2"
                      /protein_id="YP_720003.1"
-                     /db_xref="GI:113478397"
                      /db_xref="GeneID:4246737"
                      /translation="MAGALFGAIGGGLMGIIGNSISNVQNLQANKQLAAQQFGYNSSL
                      LATQIQAQKDLTLMGQQFNQQLQTNSFKHDLEMLGAQVQAQAQAQENAINIKTAQLQA
@@ -305,4 +354,3 @@ ORIGIN
      7321 ccttttgtga aaatgatttc tgcttactgc tttcttttct ttgtggtagt tagatgcatt
      7381 tt
 //
-

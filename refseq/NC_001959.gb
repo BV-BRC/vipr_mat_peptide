@@ -1,64 +1,88 @@
-LOCUS       NC_001959               7654 bp ss-RNA     linear   VRL 08-DEC-2008
-DEFINITION  Norwalk virus, complete genome.
+LOCUS       NC_001959               7654 bp ss-RNA     linear   VRL 13-AUG-2018
+DEFINITION  Norovirus GI, complete genome.
 ACCESSION   NC_001959
-VERSION     NC_001959.2  GI:106060735
-DBLINK      Project: 15520
-KEYWORDS    .
-SOURCE      Norwalk virus
-  ORGANISM  Norwalk virus
-            Viruses; ssRNA positive-strand viruses, no DNA stage;
-            Caliciviridae; Norovirus.
-REFERENCE   1  (bases 1 to 12)
+VERSION     NC_001959.2
+DBLINK      BioProject: PRJNA485481
+KEYWORDS    RefSeq.
+SOURCE      Norovirus GI
+  ORGANISM  Norovirus GI
+            Viruses; ssRNA viruses; ssRNA positive-strand viruses, no DNA
+            stage; Caliciviridae; Norovirus.
+REFERENCE   1  (bases 1 to 7654)
+  AUTHORS   Fernandez-Vega,V., Sosnovtsev,S.V., Belliot,G., King,A.D.,
+            Mitra,T., Gorbalenya,A. and Green,K.Y.
+  TITLE     Norwalk virus N-terminal nonstructural protein is associated with
+            disassembly of the Golgi complex in transfected cells
+  JOURNAL   J. Virol. 78 (9), 4827-4837 (2004)
+   PUBMED   15078964
+REFERENCE   2  (bases 1 to 7654)
+  AUTHORS   Liu,B.L., Viljoen,G.J., Clarke,I.N. and Lambden,P.R.
+  TITLE     Identification of further proteolytic cleavage sites in the
+            Southampton calicivirus polyprotein by expression of the viral
+            protease in E. coli
+  JOURNAL   J. Gen. Virol. 80 (Pt 2), 291-296 (1999)
+   PUBMED   10073687
+REFERENCE   3  (bases 1 to 7654)
+  AUTHORS   Liu,B., Clarke,I.N. and Lambden,P.R.
+  TITLE     Polyprotein processing in Southampton virus: identification of
+            3C-like protease cleavage sites by in vitro mutagenesis
+  JOURNAL   J. Virol. 70 (4), 2605-2610 (1996)
+   PUBMED   8642693
+REFERENCE   4  (bases 1 to 12)
   AUTHORS   Hardy,M.E. and Estes,M.K.
   TITLE     Completion of the Norwalk virus genome sequence
   JOURNAL   Virus Genes 12 (3), 287-290 (1996)
    PUBMED   8883366
-REFERENCE   2  (bases 13 to 7654)
+REFERENCE   5  (bases 13 to 7654)
   AUTHORS   Jiang,X., Wang,M., Wang,K. and Estes,M.K.
   TITLE     Sequence and genomic organization of Norwalk virus
   JOURNAL   Virology 195 (1), 51-61 (1993)
    PUBMED   8391187
-REFERENCE   3  (bases 1 to 7654)
+REFERENCE   6  (bases 1 to 7654)
   CONSRTM   NCBI Genome Project
   TITLE     Direct Submission
   JOURNAL   Submitted (01-AUG-2000) National Center for Biotechnology
             Information, NIH, Bethesda, MD 20894, USA
-REFERENCE   4  (bases 1 to 12)
+REFERENCE   7  (bases 1 to 12)
   AUTHORS   Hardy,M.E.
   TITLE     Direct Submission
   JOURNAL   Submitted (07-NOV-1995) Michele E. Hardy, Molecular Virology,
             Baylor College of Medicine, Houston, TX 77006, USA
-REFERENCE   5  (bases 13 to 7654)
+REFERENCE   8  (bases 13 to 7654)
   AUTHORS   Estes,M.K.
   TITLE     Direct Submission
   JOURNAL   Submitted (09-AUG-1993) M.K. Estes, Molecular Virology, Baylor
             College of Medicine, Houston, TX 77006, USA
 COMMENT     REVIEWED REFSEQ: This record has been curated by NCBI staff. The
             reference sequence was derived from M87661.
-            On Jun 1, 2006 this sequence version replaced gi:9630803.
+            On Jun 1, 2006 this sequence version replaced NC_001959.1.
             COMPLETENESS: full length.
 FEATURES             Location/Qualifiers
      source          1..7654
-                     /organism="Norwalk virus"
+                     /organism="Norovirus GI"
                      /mol_type="genomic RNA"
-                     /db_xref="taxon:11983"
+                     /db_xref="taxon:122928"
+     5'UTR           1..4
      gene            5..5374
-                     /locus_tag="NVgp1"
+                     /gene="ORF1"
+                     /locus_tag="NoVGI_gp1"
+                     /old_locus_tag="NVgp1"
                      /db_xref="GeneID:1491970"
      CDS             5..5374
-                     /locus_tag="NVgp1"
+                     /gene="ORF1"
+                     /locus_tag="NoVGI_gp1"
+                     /old_locus_tag="NVgp1"
                      /note="The mature peptides were added by the NCBI staff
                      following publications Liu et all (1996, 1999), that
                      (tentatively) determined processing map by site-directed
                      mutagenesis or by direct sequencing of the cleavage
                      products for closely related Southampton virus (a
-                     Norwalk-like virus); orf1; sequence homologies to 2C
+                     Norwalk-like virus); ORF1; sequence homologies to 2C
                      helicase, 3C protease, and 3D RNA-dependent RNA polymerase
                      of picornavirus"
                      /codon_start=1
                      /product="nonstructural polyprotein"
                      /protein_id="NP_056820.1"
-                     /db_xref="GI:9630804"
                      /db_xref="GeneID:1491970"
                      /translation="MMMASKDVVPTAASSENANNNSSIKSRLLARLKGSGGATSPPNS
                      IKITNQDMALGLIGQVPAPKATSVDVPKQQRDRPPRTVAEVQQNLRWTERPQDQNVKT
@@ -93,34 +117,40 @@ FEATURES             Location/Qualifiers
                      ASLHGEKFYRKISSKVIHEIKTGGLEMYVPGWQAMFRWMRFHDLGLWTGDRDLLPEFV
                      NDDGV"
      mat_peptide     5..1198
-                     /locus_tag="NVgp1"
-                     /product="2A2-2B-like membrane protein"
-                     /note="distant homolog of H-rev107-like parechovirus 2a2,
-                     a putative regulator of cell proliferation'; the
+                     /gene="ORF1"
+                     /locus_tag="NoVGI_gp1"
+                     /old_locus_tag="NVgp1"
+                     /product="p48"
+                     /note="N-terminal leader p48; 2A2-2B-like membrane
+                     protein; distant homolog of H-rev107-like parechovirus
+                     2a2, a putative regulator of cell proliferation; the
                      c-terminal membrane-binding portion contributes to the
                      Golgi disassembly and, therefore, functionally similar to
-                     the picornavirus 2B protein; N-terminal leader p48"
+                     the picornavirus 2B protein"
                      /protein_id="NP_786945.1"
-                     /db_xref="GI:28416959"
      mat_peptide     1199..2287
-                     /locus_tag="NVgp1"
+                     /gene="ORF1"
+                     /locus_tag="NoVGI_gp1"
+                     /old_locus_tag="NVgp1"
                      /product="NTPase"
-                     /note="probable ortholog of the 2C protein of
+                     /note="2C-L; probable ortholog of the 2C protein of
                      picornaviruses; the calicivirus NTPase was found in
                      membranous replication complexes"
                      /protein_id="NP_786946.1"
-                     /db_xref="GI:28416960"
      mat_peptide     2288..2890
-                     /locus_tag="NVgp1"
+                     /gene="ORF1"
+                     /locus_tag="NoVGI_gp1"
+                     /old_locus_tag="NVgp1"
                      /product="p22"
-                     /note="located in the polyprotein between NTPase and VPg;
-                     second most variable region of the calicivirus;
+                     /note="3A-L; located in the polyprotein between NTPase and
+                     VPg; second most variable region of the calicivirus
                      polyprotein; the FCV ortholog was detected in membranous
                      replication complexes"
                      /protein_id="NP_786947.1"
-                     /db_xref="GI:28416961"
      mat_peptide     2891..3304
-                     /locus_tag="NVgp1"
+                     /gene="ORF1"
+                     /locus_tag="NoVGI_gp1"
+                     /old_locus_tag="NVgp1"
                      /product="VPg"
                      /note="For Southampton calicivirus, both N-terminal and
                      C-terminal cleavage sites have been confirmed by direct
@@ -128,33 +158,38 @@ FEATURES             Location/Qualifiers
                      form of precursor with the upstream protein which is
                      thought to function as a membrane anchor"
                      /protein_id="NP_786948.1"
-                     /db_xref="GI:28416962"
      mat_peptide     3305..3847
-                     /locus_tag="NVgp1"
-                     /product="Chymotrypsin-like cysteine proteinase"
-                     /note="For Southampton calicivirus, both N-terminal and
-                     C-terminal cleavage sites have been confirmed by direct
-                     sequencing. The FCV proteinase (Pro) can exist in the form
-                     of a stable Pro-Pol precursor"
+                     /gene="ORF1"
+                     /locus_tag="NoVGI_gp1"
+                     /old_locus_tag="NVgp1"
+                     /product="Pro"
+                     /note="Chymotrypsin-like cysteine proteinase; For
+                     Southampton calicivirus, both N-terminal and C-terminal
+                     cleavage sites have been confirmed by direct sequencing.
+                     The FCV proteinase (Pro) can exist in the form of a stable
+                     Pro-Pol precursor"
                      /protein_id="NP_786949.1"
-                     /db_xref="GI:28416963"
      mat_peptide     3848..5371
-                     /locus_tag="NVgp1"
-                     /product="Pol"
+                     /gene="ORF1"
+                     /locus_tag="NoVGI_gp1"
+                     /old_locus_tag="NVgp1"
+                     /product="RdRp"
                      /note="the FCV polymerase (Pol) can exist in the form of a
                      stable Pro-Pol precursor; RNA-dependent RNA polymerase"
                      /protein_id="NP_786950.1"
-                     /db_xref="GI:28416964"
      gene            5358..6950
-                     /locus_tag="NVgp2"
+                     /gene="ORF2"
+                     /locus_tag="NoVGI_gp2"
+                     /old_locus_tag="NVgp2"
                      /db_xref="GeneID:1491972"
      CDS             5358..6950
-                     /locus_tag="NVgp2"
-                     /note="orf2"
+                     /gene="ORF2"
+                     /locus_tag="NoVGI_gp2"
+                     /old_locus_tag="NVgp2"
+                     /note="ORF2; 58kd capsid protein; major capsid protein"
                      /codon_start=1
-                     /product="58 kd capsid protein"
+                     /product="VP1"
                      /protein_id="NP_056821.2"
-                     /db_xref="GI:106060736"
                      /db_xref="GeneID:1491972"
                      /translation="MMMASKDATSSVDGASGAGQLVPEVNASDPLAMDPVAGSSTAVA
                      TAGQVNPIDPWIINNFVQAPQGEFTISPNNTPGDVLFDLSLGPHLNPFLLHLSQMYNG
@@ -167,20 +202,25 @@ FEATURES             Location/Qualifiers
                      PTVGEAALLHYVDPDTGRNLGEFKAYPDGFLTCVPNGASSGPQQLPINGVFVFVSWVS
                      RFYQLKPVGTASSARGRLGLRR"
      gene            6950..7588
-                     /locus_tag="NVgp3"
+                     /gene="ORF3"
+                     /locus_tag="NoVGI_gp3"
+                     /old_locus_tag="NVgp3"
                      /db_xref="GeneID:1491971"
      CDS             6950..7588
-                     /locus_tag="NVgp3"
-                     /note="encodes small basic protein of unknown function"
+                     /gene="ORF3"
+                     /locus_tag="NoVGI_gp3"
+                     /old_locus_tag="NVgp3"
+                     /note="ORF3; minor structural protein; small basic
+                     protein"
                      /codon_start=1
-                     /product="orf3"
+                     /product="VP2"
                      /protein_id="NP_056822.1"
-                     /db_xref="GI:9630806"
                      /db_xref="GeneID:1491971"
                      /translation="MAQAIIGAIAASTAGSALGAGIQVGGEAALQSQRYQQNLQLQEN
                      SFKHDREMIGYQVEASNQLLAKNLATRYSLLRAGGLTSADAARSVAGAPVTRIVDWNG
                      VRVSAPESSATTLRSGGFMSVPIPFASKQKQVQSSGISNPNYSPSSISRTTSWVESQN
                      SSRFGNLSPYHAEALNTVWLTPPGSTASSTLSSVPRGYFNTDRLPLFANNRR"
+     3'UTR           7589..7654
 ORIGIN      
         1 gtgaatgatg atggcgtcaa aagacgtcgt tcctactgct gctagcagtg aaaatgctaa
        61 caacaatagt agtattaagt ctcgtctatt ggcgagactc aagggttcag gtggggctac
@@ -311,4 +351,3 @@ ORIGIN
      7561 gccattattc gcaaataata ggcgatgatg ttgtaatatg aaatgtgggc atcatattca
      7621 tttaattagg tttaattagg tttaatttga tgtt
 //
-

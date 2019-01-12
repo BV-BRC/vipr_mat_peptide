@@ -17,7 +17,7 @@ use Bio::Tools::Run::StandAloneBlast;
 use IO::String;
 
 #use version;
-our $VERSION = qw(1.3.1); # Jan 28 2016
+our $VERSION = qw(1.3.4); # Dec 18 2017
 
 my $debug_all = 0;
 
@@ -195,7 +195,7 @@ sub loadTaxonTable {
             my $words = [ split(/\s*\|\s*/x) ];
 #            $debug && print STDERR "$subn: \$words='@$words'\n";
             next if (!$words->[0] || $words->[0] !~ /^\d+$/x);
-            next if (!$words->[1] || $words->[1] !~ /^\d+$/x); # ignore species=-1
+            next if (!$words->[2] || $words->[2] !~ /^\d+$/x); # ignore species=-1
 
             my $strainid = $words->[0];
             $ctLines++;
@@ -207,7 +207,15 @@ sub loadTaxonTable {
         $TAXON->{taxon_loaded} = 1 if ($#keys>1);
 
         $debug && print STDERR "$subn: finished reading $ctLines lines from file: '$TAXON->{taxon_fn}'.\n";
-        $debug && print STDERR "$subn: \$TAXON=\n".Dumper($TAXON)."End of \$TAXON\n\n";
+#        $debug && print STDERR "$subn: \$TAXON=\n".Dumper($TAXON)."End of \$TAXON\n\n";
+    }
+    for my $g (sort keys %$TAXON) {
+        $debug && print STDERR "$subn: \$g=$g\n";
+        next if ($g ne 'taxon' && $g ne 'newtax');
+        for my $t (sort {$TAXON->{$g}->{$a}->[8] cmp $TAXON->{$g}->{$b}->[8] || $TAXON->{$g}->{$a}->[3] <=> $TAXON->{$g}->{$b}->[3] || $TAXON->{$g}->{$a}->[0] <=> $TAXON->{$g}->{$b}->[0]} keys %{$TAXON->{$g}}) {
+          $debug && print STDERR "$subn: $g\t@{$TAXON->{$g}->{$t}}\n";
+        }
+        
     }
     $debug && print STDERR "$subn: \$TAXON->{taxon_loaded}=$TAXON->{taxon_loaded}\n";
     print STDERR "$subn: loaded $ctLines lines from file '$TAXON->{taxon_fn}'\n";
@@ -258,32 +266,30 @@ sub printRefseqList {
             my $speciesid = '';
             if (exists($TAXON->{'taxon'}->{$id})) {
                 $found = 1;
-                $speciesid = $TAXON->{'taxon'}->{$id}->[1];
+                $speciesid = $TAXON->{'taxon'}->{$id}->[2];
                 my $words = $TAXON->{'taxon'}->{$id};
-                $t1 .= "species=$words->[1] \t";
-                if ($words->[0] eq $words->[1]) {
+                $t1 .= "species=$words->[2] \t";
+                if ($words->[0] eq $words->[2]) {
                     $t1 .= "strain=----- \t";
                     $nspecies++;
                 } else {
                     $t1 .= "strain=$words->[0] \t";
                 }
                 $nstrain++;
-                $t1 .= "ref=$strains->{$id} \t\"$words->[4]\"\n";
+                $t1 .= "ref=$strains->{$id} \t\"$words->[6]\"\n";
             } else {
                 for my $s (keys %{$TAXON->{'taxon'}}) {
                     next if ($TAXON->{'taxon'}->{$s}->[1] ne $id);
                     $found = 1;
                     $t1 .= "species=$id \tstrain=----- \t";
-                    $t1 .= "ref=$strains->{$id} \t\"$TAXON->{'taxon'}->{$s}->[4]\"\n";
+                    $t1 .= "ref=$strains->{$id} \t\"$TAXON->{'taxon'}->{$s}->[6]\"\n";
                     $nspecies++;
                     $nstrain++;
                     last;
                 }
             }
             if (!$found) {
-                print STDERR "$subn: ERROR: Species/strain=$id doesn't exist in \$TAXON, abort\n";
-                print STDOUT "$subn: ERROR: Species/strain=$id doesn't exist in \$TAXON, abort\n";
-                exit(1);
+                print STDERR "$subn: ERROR: family/species/strain=$fam//$id doesn't exist in \$TAXON, abort\n";
             }
             $debug && print STDERR "$subn: Families: $nfamily, species: $nspecies, strains: $nstrain\n";
         }
@@ -314,15 +320,14 @@ sub get_refpolyprots {
 
     if (!$refseq || !$refseq->isa('Bio::Seq::RichSeq') || !check_refseq($refseq, $inseq)) {
 
-#        $refseq = Annotate_Def::get_refseq( $inseq, $exe_dir);
         $refseq = Annotate_Def::get_refseq( $inseq, $MSA_ANNOTATE_HOME);
         my $acc = $inseq->accession;
         my $taxid  = $inseq->species->ncbi_taxid;
         if (!$refseq) {
 #            my $species = Annotate_Def::getSpecies( $taxid);
             my $species = Annotate_Def::getTaxonInfo( $taxid);
-            my $family = ($species->[6]) ? $species->[6] : '';
-            $species = ($species->[4]) ? $species->[4] : '';
+            my $family = ($species->[8]) ? $species->[8] : '';
+            $species = ($species->[6]) ? $species->[6] : '';
             print STDERR "$subn: ERROR genome=$acc w/ taxid=$taxid($family:$species) not covered in V$VERSION.";
             print STDERR " Please contact script author for any update.\n";
             return undef;
@@ -559,6 +564,47 @@ sub add_extra_refCDS {
 } # sub add_extra_refCDS
 
 
+=head2 isReftaxon
+ Checks if a taxId is included in the refseq list.
+=cut
+
+sub isReftaxon {
+    my ($taxId) = @_;
+
+    my $debug = 0 && $debug_all;
+    my $subn = 'isReftaxon';
+    my $isReftaxon = 0;
+    return $isReftaxon if (!$taxId);
+
+    $debug && print STDERR "$subn: \$taxId=$taxId\n";
+
+    my $family = '';
+    my $refseq = '';
+    for my $fam (sort keys %{$REFSEQS->{refs}}) {
+        my $t1 = "Family=$fam\n";
+        my $strains = $REFSEQS->{refs}->{$fam};
+        if (!%$strains) {
+            $t1 .= "Family=$fam \tNo approved species found for family:$fam\n";
+            $debug && print STDERR "$subn: \$t1='$t1'\n";
+            next;
+        }
+        for my $id (sort keys %$strains) {
+            if ($id == $taxId) {
+                $isReftaxon = 1;
+                $family = $fam;
+                $refseq = $strains->{$id};
+                $debug && print STDERR "$subn: \$fam=$fam $taxId found in ". Dumper($strains) ."\n";
+                last;
+            }
+        }
+        last if ($isReftaxon);
+    }
+    $debug && print STDERR "$subn: \$family=$family $taxId \$isReftaxon=$isReftaxon\n";
+
+    return $isReftaxon;
+} # sub isReftaxon
+
+
 =head2 get_refseq
 Takes either a file name, or a Bio::Seq object based on genbank file, returns refseq in Bio::Seq.
  For a file name, simply load the genbank file
@@ -642,64 +688,65 @@ sub get1RefseqAcc {
     my $subn = 'get1RefseqAcc';
 
     my $refseq_acc = '';
-    $debug && print STDERR "$subn: \$taxid=$taxid\n";
+    $debug && print STDERR "$subn: Find REFSEQ for \$taxid=$taxid\n";
     return $refseq_acc if (!$taxid);
 
     # Going through $REFSEQS and find the RefSeq for a given taxid
-    my $speciesid = '-1';
-    my $species = 'unknown';
+    my $parentid = '-1';
+    my $parent = 'unknown';
     my $family = 'unknown';
-    for my $fam (keys %{$REFSEQS->{refs}}) {
+    for my $fam (sort keys %{$REFSEQS->{refs}}) {
         my $refseq_list1 = $REFSEQS->{refs}->{$fam};
-        $debug && print STDERR "$subn: \$fam=$fam \$refseq_list1=\n".Dumper($refseq_list1)."\n";
+        $debug && print STDERR "$subn: \$fam=$fam \$refseq_list1=".keys(%$refseq_list1)."\n";
+        $debug && print STDERR "$subn: \$fam=$fam \$refseq_list1=\n".Dumper($refseq_list1)."End of \$refseq_list1\n";
         next if (!($refseq_list1));
-        $debug && print STDERR "$subn: \$refseq_list1=".keys(%$refseq_list1)."\n";
         if (exists($refseq_list1->{$taxid})) {
             $refseq_acc = $refseq_list1->{$taxid};
             my $taxinfo = Annotate_Def::getTaxonInfo( $taxid);
             $debug && print STDERR "$subn: \$fam=$fam \$taxinfo=\n".Dumper($taxinfo)."\n";
-            $speciesid = $taxinfo->[1] if ($taxinfo->[1]);
-            $species = $taxinfo->[4] if ($taxinfo->[1]);
-            $family = $taxinfo->[6] if ($taxinfo->[1]);
-            $debug && print STDERR "$subn: Got from \$REFSEQS \$refseq_acc=$refseq_acc for \$taxid=$taxid species=$speciesid ($species)\n";
+            $parentid = $taxinfo->[1] if ($taxinfo->[1]);
+            $parent = $taxinfo->[6] if ($taxinfo->[1]);
+            $family = $taxinfo->[8] if ($taxinfo->[1]);
+            $debug && print STDERR "$subn: Got from \$REFSEQS \$refseq_acc=$refseq_acc for \$taxid=$taxid parent=$parentid ($parent)\n";
         }
     }
-    # If $REFSEQS doesn't contain $taxid, try find the species and take the refseq there
+    $debug && print STDERR "$subn: After direct search in \$REFSEQS & \$TAXON \$refseq_acc=$refseq_acc for \$taxid=$taxid parent=$parentid ($family:$parent)\n";
+    # If $REFSEQS doesn't contain $taxid, try find the parent level and take the refseq there
     if (!$refseq_acc && $TAXON->{taxon_loaded}) {
         my $taxinfo = Annotate_Def::getTaxonInfo( $taxid);
-        $speciesid = $taxinfo->[1] if ($taxinfo->[1]);
-        $species = $taxinfo->[4] if ($taxinfo->[1]);
-        if ($speciesid && $speciesid>0) {
-            $speciesid = $TAXON->{'taxon'}->{$taxid}->[1];
-            $species = $TAXON->{'taxon'}->{$taxid}->[4];
-            $family = $TAXON->{'taxon'}->{$taxid}->[6];
-    for my $fam (keys %{$REFSEQS->{refs}}) {
-        my $refseq_list1 = $REFSEQS->{refs}->{$fam};
-            if (exists($refseq_list1->{$speciesid})) {
-                $refseq_acc = $refseq_list1->{$speciesid};
-                $debug && print STDERR "$subn: Got from \$REFSEQS \$refseq_acc=$refseq_acc for \$taxid=$taxid species=$speciesid ($species)\n";
+        $parentid = $taxinfo->[1] if ($taxinfo->[1]);
+        $parent = $taxinfo->[5] if ($taxinfo->[1]);
+        $debug && print STDERR "$subn: Try to find REFSEQ via parent taxon for \$taxid=$taxid parent=$parentid ($family:$parent)\n";
+        if ($parentid && $parentid>0) {
+          $parentid = $TAXON->{'taxon'}->{$taxid}->[1];
+          $parent = $TAXON->{'taxon'}->{$taxid}->[5];
+          $family = $TAXON->{'taxon'}->{$taxid}->[8];
+          for my $fam (keys %{$REFSEQS->{refs}}) {
+            my $refseq_list1 = $REFSEQS->{refs}->{$fam};
+              next if (!exists($refseq_list1->{$parentid}));
+              $refseq_acc = $refseq_list1->{$parentid};
+              $debug && print STDERR "$subn: Got from \$REFSEQS \$refseq_acc=$refseq_acc for \$taxid=$taxid parent=$parentid ($parent)\n";
             }
-        }
-    }
+          }
 =head2
-        $refseq_acc = Annotate_Def::get1RefseqAcc($speciesid);
-            next if (!exists($TAXON->{'taxon'}->{$speciesid}->{$taxid}));
+        $refseq_acc = Annotate_Def::get1RefseqAcc($parentid);
+            next if (!exists($TAXON->{'taxon'}->{$parentid}->{$taxid}));
             # Could use 0 to signal the strains not covered
-#            next if ($TAXON->{'taxon'}->{$speciesid}->{$taxid}!=1);
+#            next if ($TAXON->{'taxon'}->{$parentid}->{$taxid}!=1);
             my $refacc = '';
-            $refacc = $TAXON->{'taxon'}->{$speciesid}->{$speciesid} if (exists($TAXON->{'taxon'}->{$speciesid}->{$speciesid}));
-            $debug && print "$subn: \$taxid=$taxid \$speciesid=$speciesid \$refacc=$refacc\n";
+            $refacc = $TAXON->{'taxon'}->{$parentid}->{$parentid} if (exists($TAXON->{'taxon'}->{$parentid}->{$parentid}));
+            $debug && print "$subn: \$taxid=$taxid \$parentid=$parentid \$refacc=$refacc\n";
             $refseq_acc = $refacc if ($refacc && $refacc =~ /^NC_0/i);
-            print STDERR "$subn: \$taxid=$taxid \$speciesid=$speciesid \$refacc=$refacc \$refseq_acc=$refseq_acc\n";
+            print STDERR "$subn: \$taxid=$taxid \$parentid=$parentid \$refacc=$refacc \$refseq_acc=$refseq_acc\n";
             last;
 #        }
 =cut
-        $debug && print STDERR "$subn: Determined from \$REFSEQS & \$TAXON \$refseq_acc=$refseq_acc for \$taxid=$taxid species=$speciesid ($family:$species)\n";
+        $debug && print STDERR "$subn: Determined from \$REFSEQS & \$TAXON \$refseq_acc=$refseq_acc for \$taxid=$taxid parent=$parentid ($family:$parent)\n";
 
     }
 
-    $debug && print STDERR "$subn: \$refseq_acc=$refseq_acc taxid=$taxid, species=$speciesid ($family:$species)\n";
-    return ($refseq_acc, $speciesid, $species, $family);
+    $debug && print STDERR "$subn: \$refseq_acc='$refseq_acc' taxid=$taxid, parent=$parentid ($family:$parent)\n";
+    return ($refseq_acc, $parentid, $parent, $family);
 } # sub get1RefseqAcc
 
 
@@ -886,8 +933,9 @@ sub initRefseq {
  146073 => 'NC_004541', #  146073 | Walrus calicivirus                    | Good refseq w/ 7+2 mat_peptides, V1.1.6
 ## 303317 => 'NC_008580', #  303317 | Rabbit vesivirus                      | No mat_peptide in refseq; No mat_peptide in uniprot. 8/13
  # NC_008311 seems good enough to be used as RefSeq for species 357231
- 223997 => 'NC_008311', #  357231 | Murine norovirus                      | Good refseq w/ 6 mat_peptides, V1.1.6
- 357231 => 'NC_008311', #  357231 | Murine norovirus                      | Good refseq w/ 6 mat_peptides, V1.1.6
+# 223997 => 'NC_008311', #  357231 | Murine norovirus                      | Good refseq w/ 6 mat_peptides, V1.1.6; NC_008311 has been moved
+# 357231 => 'NC_008311', #  357231 | Murine norovirus                      | Good refseq w/ 6 mat_peptides, V1.1.6; NC_008311 has been moved
+1246677 => 'NC_008311', # 1246677 | Norovirus GV / Norwalk virus          | Good refseq w/ 6 mat_peptides, V1.3.2
 ## 436911 => 'NC_011050', #  436911 | Steller sea lion vesivirus            | No mat_peptide in refseq; No mat_peptide in uniprot. 8/13
 ## 576948 => 'NC_011704', #  576948 | Rabbit calicivirus Australia 1 MIC-07 | No mat_peptide in refseq; No mat_peptide in uniprot. 8/13
 ## 520973 => 'NC_012699', #  646294 | St-Valerien swine virus               | No mat_peptide in refseq; No mat_peptide in uniprot. 8/13
@@ -903,7 +951,7 @@ sub initRefseq {
   # Alphavirus
   # the nsP4(5703..7520) in NC_001449 is 1 AA short from the end of polyprotein
   11036 => 'NC_001449', # 11036 |     11036 | Venezuelan equine encephalitis virus; Ver1.1.3
-  11027 => 'NC_001512', # 11027 |     11027 | O'nyong-nyong virus; Ver1.1.3
+2169701 => 'NC_001512', # 11027 |     11027 | O'nyong-nyong virus; Ver1.1.3; 11027 is the old taxon id
   11029 => 'NC_001544', # 11029 |     11029 | Ross River virus; Ver1.1.3
   11034 => 'NC_001547', # 11034 |     11034 | Sindbis virus; Ver1.1.3
   11020 => 'NC_001786', # 11020 |     11020 | Barmah Forest virus; Ver1.1.3
@@ -1000,7 +1048,7 @@ sub initRefseq {
 #  11628 => 'NC_005078', # Machupo virus                      |     11628 | No mat_peptide in refseq
 #  11628 => 'NC_005079', # Machupo virus                      |     11628 | No mat_peptide in refseq
 #  11619 => 'NC_005080', # Junin virus                        |     11619 | No mat_peptide in refseq
-  11619 => 'NC_005081', # Junin virus                        |     11619 | Good refseq w/ 2 mat_peptides; Ver1.1.4
+ 2169991 => 'NC_005081', # Junin virus                        |     11619 | Good refseq w/ 2 mat_peptides; Ver1.1.4; 11619 is the old taxon id
 #  49891 => 'NC_005894', # Pirital virus                      |     49891 | No mat_peptide in refseq
 #  49891 => 'NC_005897', # Pirital virus                      |     49891 | No mat_peptide in refseq
 #  45709 => 'NC_006313', # Sabia virus                        |     45709 | No mat_peptide in refseq
@@ -1043,11 +1091,11 @@ sub initRefseq {
 # 573900 => 'NC_013058', # Morogoro virus                     |    573900 | No mat_peptide in refseq
             },
 
-  # Family=Bunyaviridae
-  'Bunyaviridae' => {
+  # Family=Phenuiviridae
+  'Phenuiviridae' => {
 # 992212 => 'NC_018136', # Severe fever with thrombocytopenia syndrome virus | 1003835 | No mat_peptide in refseq
 # 992212 => 'NC_018137', # Severe fever with thrombocytopenia syndrome virus | 1003835 | No mat_peptide in refseq
- 992212 => 'NC_018138', # Severe fever with thrombocytopenia syndrome virus | 1003835 | Good refseq, w/ 2 mat_peptide + 2 sig_peptide, V1.1.7
+ 1933190 => 'NC_018138', # Severe fever with thrombocytopenia syndrome virus | 1003835 | Good refseq, w/ 2 mat_peptide + 2 sig_peptide, V1.1.7
 #  35304 => 'NC_001925', # Bunyamwera virus                                |  35304 | No mat_peptide in refseq
 #  35304 => 'NC_001926', # Bunyamwera virus                                |  35304 | No mat_peptide in refseq
 #  35304 => 'NC_001927', # Bunyamwera virus                                |  35304 | No mat_peptide in refseq
@@ -1064,13 +1112,17 @@ sub initRefseq {
 #  11595 => 'NC_004158', # Dugbe virus                                     |  11595 | Has only 1 mat_peptide, ignore for V1.1.4
 #  11595 => 'NC_004159', # Dugbe virus                                     |  11595 | No mat_peptide in refseq
 #  11591 => 'NC_005214', # Uukuniemi virus                                 |  11591 | No mat_peptide in refseq
-  11591 => 'NC_005220', # Uukuniemi virus                                 |  11591 | Good refseq, w/ 2 mat_peptide + 2 sig_peptide, V1.1.4
+ 1933191 => 'NC_005220', # Uukuniemi virus                                 |  11591 | Good refseq, w/ 2 mat_peptide + 2 sig_peptide, V1.1.4
 #  11591 => 'NC_005221', # Uukuniemi virus                                 |  11591 | No mat_peptide in refseq
 #  37705 => 'NC_005215', # Sin Nombre virus                                |  37705 | No mat_peptide in refseq
 #  37705 => 'NC_005216', # Sin Nombre virus                                |  37705 | No mat_peptide in refseq
 #  37705 => 'NC_005217', # Sin Nombre virus                                |  37705 | No mat_peptide in refseq
+            },
+
+ # Family=Hantaviridae
+  'Hantaviridae' => {
 #  11599 => 'NC_005218', # Hantaan virus                                   |  11599 | No mat_peptide in refseq
-  11599 => 'NC_005219', # Hantaan virus                                   |  11599 | Good refseq, w/ 2 mat_peptide + 1 sig_peptide, V1.1.4
+ 1980471 => 'NC_005219', # Hantaan virus                                   |  11599 | Good refseq, w/ 2 mat_peptide + 1 sig_peptide, V1.1.4
 #  11599 => 'NC_005222', # Hantaan virus                                   |  11599 | No mat_peptide in refseq
 #  11604 => 'NC_005223', # Puumala virus                                   |  11604 | No mat_peptide in refseq
 #  11604 => 'NC_005224', # Puumala virus                                   |  11604 | No mat_peptide in refseq
@@ -1232,7 +1284,7 @@ sub initRefseq {
 # 1330521 => 'NC_013695', #  1330521 | Enterovirus J                   | Good refseq w/ 11 mat_peptides, V1.2.1
 #  194965 => 'NC_004421', #  194965 | Bovine kobuvirus                 | Good refseq w/ 11 mat_peptides, V1.1.6
  1476554 => 'NC_004421', #  194965 | Bovine kobuvirus                 | Good refseq w/ 11 mat_peptides, V1.2.1, species
-  195054 => 'NC_001897', #  195054 | Human parechovirus               | Good refseq w/ 10 mat_peptides, V1.1.6
+ 1803956 => 'NC_001897', #  195054 | Parechovirus A                 | Good refseq w/ 10 mat_peptides, V1.1.6; 195054 is the old taxon id
   204711 => 'NC_001366', #  204711 | Theilovirus                      | Good refseq w/ 12 mat_peptides, V1.1.6
   434309 => 'NC_009448', #  204711 | Theilovirus                      | Good refseq w/ 12 mat_peptides, V1.1.6
   511755 => 'NC_010810', #  204711 | Theilovirus                      | Good refseq w/ 12 mat_peptides, V1.1.6
@@ -1252,8 +1304,8 @@ sub initRefseq {
 #  586419 => 'NC_012800', #  586419 | Human cosavirus A                | Good refseq w/ 11 mat_peptides, V1.1.6
  1330491 => 'NC_012800', #  1330491 | Cosavirus A                     | Good refseq w/ 11 mat_peptides, V1.2.1, species
   586420 => 'NC_012801', #  586420 | Human cosavirus B                | Good refseq w/ 11 mat_peptides, V1.1.6
-  586422 => 'NC_012802', #  586422 | Human cosavirus D                | Good refseq w/ 11 mat_peptides, V1.1.6
-  586423 => 'NC_012798', #  586423 | Human cosavirus E                | Good refseq w/ 11 mat_peptides, V1.1.6
+  2003650 => 'NC_012802', #  586422 | Human cosavirus D                | Good refseq w/ 11 mat_peptides, V1.1.6; 586422 is the old taxon id
+  2003651 => 'NC_012798', #  586423 | Human cosavirus E                | Good refseq w/ 11 mat_peptides, V1.1.6; 586423 is the old taxon id
 ##  655603 => 'NC_012986', #  655603 | Human klassevirus 1              | No mat_peptide in refseq
   686983 => 'NC_006553', #  686983 | Avian sapelovirus                | Good refseq w/ 12 mat_peptides, V1.1.6
  1002921 => 'NC_003987', #  686984 | Porcine sapelovirus              | Good refseq w/ 11 mat_peptides, V1.1.6
@@ -1278,7 +1330,8 @@ sub initRefseq {
  # NC_011829 is not a high quality refseqs, therefore it's not used for the species Porcine kobuvirus (1156769)
   569195 => 'NC_011829', # 1156769 | Porcine kobuvirus                | Good refseq w/ 11 mat_peptides, V1.1.6
 ## 1136133 => 'NC_016769', # 1156769 | Porcine kobuvirus                | No mat_peptide in refseq
- 1210913 => 'NC_018226', # 1210913 | Swine pasivirus 1                | Good refseq w/ 11 mat_peptides, V1.1.6
+## 1210913 => 'NC_018226', # 1210913 | Swine pasivirus 1                | Good refseq w/ 11 mat_peptides, V1.1.6
+ 1511784 => 'NC_018226', # 1210913 | Swine pasivirus 1                | Good refseq w/ 11 mat_peptides, V1.3.2
 ## 1214230 => 'NC_018400', # 1214230 | Turkey gallivirus                | No mat_peptide in refseq
 # 1233320 => 'NC_018668', # 1233320 | Bovine hungarovirus              | Good refseq w/ 12 mat_peptides, V1.1.6. This is old taxon
  1431464 => 'NC_018668', # 1431460 | Hunnivirus A                 | Good refseq w/ 12 mat_peptides, V1.2.1
@@ -1288,7 +1341,8 @@ sub initRefseq {
  1398149 => 'NC_022332', # 1398149 | Eel picornavirus 1           | Good refseq w/ 11 mat_peptides, V1.2.1
  1416021 => 'NC_022802', # 1416021 | Feline sakobuvirus A         | Good refseq w/ 11 mat_peptides, V1.2.1
  1452516 => 'NC_023422', # 1452516 | Caprine kobuvirus            | Good refseq w/ 11 mat_peptides, V1.2.1
- 1476208 => 'NC_023861', # 1476208 | Sicinivirus 1                | Good refseq w/ 11 mat_peptides, V1.2.1
+## 1476208 => 'NC_023861', # 1476208 | Sicinivirus 1                | Good refseq w/ 11 mat_peptides, V1.2.1
+ 1755588 => 'NC_023861', # 1476208 | Sicinivirus 1                | Good refseq w/ 11 mat_peptides, V1.3.2
  1483681 => 'NC_023988', # 1483681 | Tortoise rafivirus A         | Good refseq w/ 11 mat_peptides, V1.2.1
 #+---------+-----------+-----------+----------------------------------+
 #73 rows in set (0.01 sec)
@@ -1723,7 +1777,7 @@ Returns the gene symbol in a string
 sub get_gene_symbol {
     my ($reffeat, $exe_dir) = @_;
 
-    my $debug = 1 && $debug_all;
+    my $debug = 0 && $debug_all;
     my $subn = 'get_gene_symbol';
 #    print STDERR "get_gene_symbol: \$reffeat=\n".Dumper($reffeat)."end of \$reffeat\n\n";
 

@@ -355,19 +355,21 @@ sub loadXmlTaxon {
         my $taxid = '';
         my $tax = xml2hash( @set);
 
-        my $taxon = getTaxonString( $tax);
+        my $taxon = getTaxonArr( $tax);
         my $t = [
                   $taxon->{'TaxId'},
+                  $taxon->{'refseqid'},
                   $taxon->{'speciesid'},
                   $taxon->{'genusid'},
                   $taxon->{'familyid'},
+                  $taxon->{'refseq'},
                   $taxon->{'species'},
                   $taxon->{'genus'},
                   $taxon->{'family'},
                 ];
 
         $newTax->{$taxon->{'TaxId'}} = $t;
-#        $debug && print STDERR "$subn: \$tax=\n".Dumper($tax)."\n";
+        $debug && print STDERR "$subn: \$tax=\n".Dumper($tax)."\n";
 
     }
     $debug && print STDERR "$subn: \$newTax=\n".Dumper($newTax)."\n";
@@ -377,18 +379,20 @@ sub loadXmlTaxon {
 
 
 =head2
- sub getTaxonString takes a hash of a taxon, and finds the relative info, and returns an array
+ sub getTaxonArr takes a hash of a taxon, and finds the relative info, and returns an array
 =cut
 
-sub getTaxonString {
+sub getTaxonArr {
     my ($tax) = @_;
 
     my $debug = 0 || $debug_all;
-    my $subn = 'getTaxonString';
+    my $subn = 'getTaxonArr';
 
-#    $debug && print STDERR "$subn: Just got in the sub: \$tax=\n".Dumper($tax)."\n";
+    $debug && print STDERR "$subn: Just got in the sub: \$tax=\n".Dumper($tax)."\n";
     my $taxInfo = {
                     'TaxId' => -1,
+                    'refseqid' => -1,
+                    'refseq' => '', # This is the taxon of the refseq, not the parent defined in XML
                     'speciesid' => -1,
                     'species' => '',
                     'genusid' => -1,
@@ -415,10 +419,15 @@ sub getTaxonString {
     }
 
     my $ts = $tax->{'Taxon'}->{'LineageEx'}->{'Taxon'};
+    my $i = -1;
+    my $belowSpecies = 0; # Lineage starts from top to bottom
     for my $t (@$ts) {
+        $i++;
+        $debug && printf STDERR "$subn: Finding parent #$i: \$t=$t->{TaxId}\t%-12s\t$t->{ScientificName}\n", $t->{Rank};
         if ($t->{'Rank'} eq 'species') {
             $taxInfo->{'speciesid'} = $t->{'TaxId'};
             $taxInfo->{'species'} = $t->{'ScientificName'};
+            $belowSpecies = 1;
         }
         if ($t->{'Rank'} eq 'genus') {
             $taxInfo->{'genusid'} = $t->{'TaxId'};
@@ -428,12 +437,21 @@ sub getTaxonString {
             $taxInfo->{'familyid'} = $t->{'TaxId'};
             $taxInfo->{'family'} = $t->{'ScientificName'};
         }
+        if ($belowSpecies == 1 && Annotate_Def::isReftaxon($t->{'TaxId'})) { # The last assignment trumps
+            $taxInfo->{'refseqid'} = $t->{'TaxId'};
+            $taxInfo->{'refseq'} = $t->{'ScientificName'};
+        }
+    }
+    $debug && print STDERR "$subn: ready to check $tax->{'Taxon'}->{'TaxId'}\n";
+    if (Annotate_Def::isReftaxon($tax->{'Taxon'}->{'TaxId'})) {
+        $taxInfo->{'refseqid'} = $tax->{'Taxon'}->{'TaxId'};
+        $taxInfo->{'refseq'} = $tax->{'Taxon'}->{'ScientificName'};
     }
 
     $debug && print STDERR "$subn: right before returning from subroutine \$taxInfo=\n".Dumper($taxInfo)."\n";
 
     return $taxInfo;
-} # sub getTaxonString
+} # sub getTaxonArr
 
 
 =head2
@@ -446,7 +464,7 @@ sub xml2hash {
     my $debug = 0 && $debug_all;
     my $subn = 'xml2hash';
 
-    $debug && print STDERR "$subn: Just got in the sub: \@set=\n".Dumper(@set)."\n";
+    $debug && print STDERR "$subn: Just got in the sub: \@set=\n".Dumper(\@set)."\n";
     my $tax = {};
     my @starts = ();
     my $start = -1;
@@ -485,7 +503,7 @@ sub xml2hash {
                 next;
             } elsif ($line =~ /<\/$tags[$#tags]>/) {
                 my @set1 = ( @set[$start .. $i] );
-                $debug && print STDERR "$subn: 3. Found last tags: \$start=$start \@tags='@tags'  \$set1=\n".Dumper(@set1)."\n";
+                $debug && print STDERR "$subn: 3. Found last tags: \$start=$start \@tags='@tags'  \$set1=\n".Dumper(\@set1)."\n";
                 $tag = pop @tags;
                 if ($#tags<0) {
                     $set[$i] =~ s/<\/$tag>//;
@@ -535,6 +553,30 @@ sub taxToString {
 } # sub taxToString
 
 =head2
+ sub taxToString2 takes a taxon in the Array form, and turn it into formated string
+=cut
+
+sub taxToString2 {
+    my ( $tax) = @_;
+
+    my $debug = 0 || $debug_all;
+    my $subn = 'taxToString2';
+
+    my $str = '';
+    $str .= sprintf("| %7d |", $tax->[0]);
+    $str .= sprintf(" %7d |", $tax->[1]);
+    $str .= sprintf(" %7d |", $tax->[2]);
+    $str .= sprintf(" %7d |", $tax->[3]);
+    $str .= sprintf(" %7d |", $tax->[4]);
+    $str .= sprintf(" %-28s |", $tax->[5]);
+    $str .= sprintf(" %-28s |", $tax->[6]);
+    $str .= sprintf(" %-16s |", $tax->[7]);
+    $str .= sprintf(" %-15s |", $tax->[8]);
+
+    return $str;
+} # sub taxToString2
+
+=head2
  sub checkFamilyTaxon looks over one family and see if there is any update in its taxonomy from NCBI
 =cut
 
@@ -580,22 +622,23 @@ sub checkFamilyTaxon {
     my $str1 = '';
     my $ct = -1;
     my $cskipped = 0;
-    for my $taxid (keys %$newTax) {
-        if ($newTax->{$taxid}->[1]<0) {
+    # merge $newTax to $TAXON
+    for my $taxid (sort keys %$newTax) {
+        if ($newTax->{$taxid}->[2]<0) { # Make sure we have valid species
             $cskipped++;
             print STDERR "$subn: skip #$cskipped:'@{$newTax->{$taxid}}'.\n";
-            next;
+#            next;
         }
         $ct++;
         $status->{total}++;
         my $newStr = '';
-        $newStr = Annotate_Download::taxToString($newTax->{$taxid});
+        $newStr = Annotate_Download::taxToString2($newTax->{$taxid});
         $str .= $newStr . "\n";
-#        $debug && print STDERR "$subn: \$ct=$ct \$taxid=$taxid \$newStr='$newStr'\n";
+        $debug && print STDERR "$subn: \$ct=$ct \$taxid=$taxid \$newStr='$newStr'\n";
 
         my $oldStr = "";
         if (exists($TAXON->{taxon}->{$taxid})) {
-            $oldStr = Annotate_Download::taxToString( $TAXON->{taxon}->{$taxid} );
+            $oldStr = Annotate_Download::taxToString2( $TAXON->{taxon}->{$taxid} );
         }
 
         $status->{strain}++;
@@ -617,6 +660,7 @@ sub checkFamilyTaxon {
             $debug && print STDERR "$subn: \$ct=$ct \$taxid=$taxid found new Taxon info from NCBI download for $fam:\n";
             print STDERR "$subn: \$ct=$ct \$oldStr='$oldStr'\n";
             print STDERR "$subn: \$ct=$ct \$newStr='$newStr'\n";
+            print STDOUT "$newStr\n";
             $debug && print STDERR "$subn: \$status->{TAXON_UPDATED}=$status->{TAXON_UPDATED}\n";
         }
     } # for my $taxid (sort {}) {
@@ -633,6 +677,7 @@ sub checkFamilyTaxon {
 
     return $status;
 } # sub checkFamilyTaxon
+
 
 =head2
  sub checkAllTaxon looks over each family and see if there is any update in its taxonomy from NCBI
@@ -676,7 +721,7 @@ sub checkAllTaxon {
     $debug && print STDERR "$subn: \$exe_dir='$exe_dir'\n";
 
     # Check strains for each family from genbank
-#    my $DOWNLOAD_TAXON = 0;
+    #my $DOWNLOAD_TAXON = 1;
     my $genera = {};
     my $TAXON_UPDATED = 0;
     for my $fam (sort keys %{$REFSEQS->{refs}}){
@@ -699,6 +744,14 @@ sub checkAllTaxon {
         $count->{total} += $status->{total};
 
     } # for my $fam (sort keys %{$REFSEQS->{refs}}){
+    $debug && print STDERR "$subn: After checking each family, \$TAXON=\n".Dumper($TAXON)."End of \$TAXON\n";
+    for my $g (sort keys %$TAXON) {
+#        $debug && print STDERR "$subn: tag=$g\n";
+#        next if ($g ne 'taxon' && $g ne 'newtax');
+#        for my $t (sort keys %{$TAXON->{$g}}) {
+#            $debug && print STDERR "$subn: tag=$g \t$t \t@{$TAXON->{$g}->{$t}}\n";
+#        }
+    }
 
     # If there is any update, write all data to file, backup older file
     my @fams = ( );
@@ -713,12 +766,13 @@ sub checkAllTaxon {
         my $newTax = {};
         # gather all taxon for a family
         for my $taxid (keys %{$TAXON->{newtax}}) {
-            $newTax->{$taxid} = $TAXON->{newtax}->{$taxid} if ($fam eq $TAXON->{newtax}->{$taxid}->[6]);
+            $newTax->{$taxid} = $TAXON->{newtax}->{$taxid} if ($fam eq $TAXON->{newtax}->{$taxid}->[8]);
         }
+        $debug && print STDERR "$subn: save to file: \$fam=$fam \$newTax=\n".Dumper($newTax)."End of \$newTax\n";
         my $oldTax = {};
         # gather all taxon for a family
         for my $taxid (keys %{$TAXON->{taxon}}) {
-            $oldTax->{$taxid} = $TAXON->{taxon}->{$taxid} if ($fam eq $TAXON->{taxon}->{$taxid}->[6]);
+            $oldTax->{$taxid} = $TAXON->{taxon}->{$taxid} if ($fam eq $TAXON->{taxon}->{$taxid}->[8]);
         }
         my $oldLen = scalar(keys %$oldTax);
         my $newLen = scalar(keys %$newTax);
@@ -733,7 +787,7 @@ sub checkAllTaxon {
         if ($#ti>=0) {
             print STDERR "$subn: \$fam=$fam following are the $#ti missing taxons in new update:\n";
             for my $i (0 .. $#ti) {
-                print STDERR "$subn: #$i: ".Annotate_Download::taxToString( $diff->{$ti[$i]})."\n";
+                print STDERR "$subn: MISSING #$i: ".Annotate_Download::taxToString2( $diff->{$ti[$i]})."\n";
             }
         }
         my $status = $count->{$fam};
@@ -745,12 +799,13 @@ sub checkAllTaxon {
         $str .= sprintf("# Saved from Annotate_Download.pm Ver$VERSION on %s \n", $time);
         my $str1 = '';
         my $ct = -1;
-        for my $taxid (sort {$newTax->{$a}->[2]<=>$newTax->{$b}->[2] || $newTax->{$a}->[1]<=>$newTax->{$b}->[1] || $newTax->{$a}->[0]<=>$newTax->{$b}->[0]} keys %$newTax) {
-            next if ($newTax->{$taxid}->[1]<0);
+        for my $taxid (sort {$newTax->{$a}->[3]<=>$newTax->{$b}->[3] || $newTax->{$a}->[2]<=>$newTax->{$b}->[2] || $newTax->{$a}->[0]<=>$newTax->{$b}->[0]} keys %$newTax) {
+#            next if ($newTax->{$taxid}->[2]<0);
             $ct++;
-            my $newStr = Annotate_Download::taxToString( $newTax->{$taxid});
+            my $newStr = Annotate_Download::taxToString2( $newTax->{$taxid});
             $str .= $newStr . "\n";
             $msg .= "#$ct\tnew\t$newStr\n";
+            $debug && print STDERR "$subn: to be saved: \$newStr=$newStr\n";
         } # for my $taxid (sort {}) {
         $debug && print STDERR "$subn: \$fam=$fam \$genera=\n".Dumper($genera)."End of \$genera\n";
 
@@ -1107,7 +1162,7 @@ sub check1Refseq {
     my $debug = 0 || $debug_all;
     my $subn = 'check1Refseq';
 
-#    $debug = 1 if ($acc eq 'NC_013695');
+#    $debug = 0 if ($acc eq 'NC_013695');
     $exe_dir = './' if (!$exe_dir);
     my $errcode = {
                     no_file_on_disk => 0, # Set to 1 if there is no such genbank file
@@ -1133,7 +1188,7 @@ sub check1Refseq {
     my $strain = $speciesid->[0];
     $debug && print STDERR "$subn: $acc \$fam='$fam' \$strain='$strain'\n";
     if (exists($REFSEQS->{refs}) 
-        && exists($REFSEQS->{refs}->{$fam}) 
+        && $fam && exists($REFSEQS->{refs}->{$fam}) 
         && exists($REFSEQS->{refs}->{$fam}->{$strain}) 
         && ($acc eq $REFSEQS->{refs}->{$fam}->{$strain})
        ) {
@@ -1379,5 +1434,6 @@ sub updateRefseq {
 
     return ;
 } # sub updateRefseq
+
 
 1;

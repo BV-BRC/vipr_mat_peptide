@@ -148,7 +148,7 @@ sub readGenbank {
 sub process_list1 {
     my ($accs, $aln_fn, $dbh_ref, $exe_dir, $exe_name, $dir_path, $inFormat, $inTaxon, $outFormat) = @_;
 
-    my $debug = 0 || $debug_all;
+    my $debug = 0 || Annotate_Util::getDebugAll();
     my $subname = 'process_list1';
 
     my $progs = Annotate_Def::getProgs();
@@ -176,12 +176,16 @@ sub process_list1 {
         my $gbk = $result;
         my $in_file2 = IO::String->new($gbk);
         my $in;
+        $debug && print STDERR "$subname: \$inFormat=$inFormat \$in_file2=$in_file2\n";
+        $debug && print STDERR "$subname: \$inFormat=$inFormat \$gbk=$gbk\n";
         if ($inFormat =~ m/genbank/i) {
             $in  = Bio::SeqIO->new( -fh => $in_file2, -format => 'genbank' );
         } elsif ($inFormat =~ m/fasta/i) {
             $in  = Bio::SeqIO->new( -fh => $in_file2, -format => 'fasta' );
+        } else {
+            $in  = Bio::SeqIO->new( -fh => $in_file2,);
         }
-#        $debug && print STDERR "$subname: \$in='\n". Dumper($in) . "End of \$in\n\n";
+        $debug && print STDERR "$subname: \$in='\n". Dumper($in) . "End of \$in\n\n";
 while (
         my $inseq = $in->next_seq()#;
 ) {
@@ -202,6 +206,7 @@ while (
             $debug && print STDERR "$subname: \$result='$result'\n";
         }
         my $taxid;
+            $acc = $inseq->accession_number;
         if ($inFormat =~ m/genbank/i) {
             $acc = $inseq->accession_number;
             $taxid = $inseq->species->ncbi_taxid;
@@ -626,7 +631,7 @@ Usage:  -d directory to find the input genome file
     $debug && print STDERR "$subname: \$refseq_list=".Dumper($refseq_list)."\n";
     $usage .= $refseq_list;
 
-    print STDERR "$subname: \$usage=\n".Dumper($usage)."\n";
+    $debug && print STDERR "$subname: \$usage=\n".Dumper($usage)."\n";
     return $usage . "\n";
 } # sub Usage
 

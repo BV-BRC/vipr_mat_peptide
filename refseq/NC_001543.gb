@@ -1,13 +1,13 @@
-LOCUS       NC_001543               7437 bp ss-RNA     linear   VRL 08-DEC-2008
+LOCUS       NC_001543               7437 bp ss-RNA     linear   VRL 13-AUG-2018
 DEFINITION  Rabbit hemorrhagic disease virus-FRG, complete genome.
 ACCESSION   NC_001543
-VERSION     NC_001543.1  GI:9790292
-DBLINK      BioProject: PRJNA15313
-KEYWORDS    .
+VERSION     NC_001543.1
+DBLINK      BioProject: PRJNA485481
+KEYWORDS    RefSeq.
 SOURCE      Rabbit hemorrhagic disease virus
   ORGANISM  Rabbit hemorrhagic disease virus
-            Viruses; ssRNA positive-strand viruses, no DNA stage;
-            Caliciviridae; Lagovirus.
+            Viruses; ssRNA viruses; ssRNA positive-strand viruses, no DNA
+            stage; Caliciviridae; Lagovirus.
 REFERENCE   1  (bases 1 to 7437)
   AUTHORS   Meyers,G., Wirblich,C., Thiel,H.J. and Thumfart,J.O.
   TITLE     Rabbit hemorrhagic disease virus: genome organization and
@@ -26,8 +26,8 @@ REFERENCE   3  (bases 1 to 7437)
   TITLE     Direct Submission
   JOURNAL   Submitted (10-AUG-2000) National Center for Biotechnology
             Information, NIH, Bethesda, MD 20894, USA
-COMMENT     REVIEWED REFSEQ: This record has been curated by NCBI staff. The
-            reference sequence was derived from M67473.
+COMMENT     VALIDATED REFSEQ: This record has undergone validation or
+            preliminary review. The reference sequence was derived from M67473.
             COMPLETENESS: full length.
 FEATURES             Location/Qualifiers
      source          1..7437
@@ -43,7 +43,6 @@ FEATURES             Location/Qualifiers
                      /codon_start=1
                      /product="polyprotein"
                      /protein_id="NP_062875.1"
-                     /db_xref="GI:9790293"
                      /db_xref="GeneID:1491968"
                      /translation="MAAMSRLTGMTTAILPEKKPLDFFLDLRDKTPPCCIRATGRLAW
                      PVFPGQNGKEGPLETCNKCGKWLNGFGNFGLEDLGDVCLCSIAQQKHKFGPVCLCNRV
@@ -92,14 +91,12 @@ FEATURES             Location/Qualifiers
                      /experiment="experimental evidence, no additional details
                      recorded"
                      /protein_id="NP_740326.1"
-                     /db_xref="GI:25121574"
      mat_peptide     439..1110
                      /locus_tag="RHDVgp1"
                      /product="p23/p26"
                      /experiment="experimental evidence, no additional details
                      recorded"
                      /protein_id="NP_740327.1"
-                     /db_xref="GI:25121575"
      mat_peptide     1111..2163
                      /locus_tag="RHDVgp1"
                      /product="2C-like protein"
@@ -107,14 +104,12 @@ FEATURES             Location/Qualifiers
                      recorded"
                      /note="p37"
                      /protein_id="NP_740328.1"
-                     /db_xref="GI:25121576"
      mat_peptide     2164..2988
                      /locus_tag="RHDVgp1"
                      /product="p29"
                      /experiment="experimental evidence, no additional details
                      recorded"
                      /protein_id="NP_740329.1"
-                     /db_xref="GI:25121577"
      mat_peptide     2992..3333
                      /locus_tag="RHDVgp1"
                      /product="VPg"
@@ -122,7 +117,6 @@ FEATURES             Location/Qualifiers
                      recorded"
                      /note="p13/p14"
                      /protein_id="NP_740330.1"
-                     /db_xref="GI:25121578"
      mat_peptide     3334..3762
                      /locus_tag="RHDVgp1"
                      /product="3C-like proteinase"
@@ -130,7 +124,6 @@ FEATURES             Location/Qualifiers
                      recorded"
                      /note="p15"
                      /protein_id="NP_740331.1"
-                     /db_xref="GI:25121579"
      mat_peptide     3763..5310
                      /locus_tag="RHDVgp1"
                      /product="RdRp"
@@ -138,13 +131,11 @@ FEATURES             Location/Qualifiers
                      recorded"
                      /note="p58"
                      /protein_id="NP_740332.1"
-                     /db_xref="GI:25121580"
      mat_peptide     5311..7041
                      /locus_tag="RHDVgp1"
                      /product="VP60"
                      /note="major capsid protein"
                      /protein_id="NP_740333.1"
-                     /db_xref="GI:25121581"
      gene            7025..7378
                      /locus_tag="RHDVgp2"
                      /db_xref="GeneID:1491967"
@@ -153,7 +144,6 @@ FEATURES             Location/Qualifiers
                      /codon_start=1
                      /product="minor capsid protein"
                      /protein_id="NP_062876.1"
-                     /db_xref="GI:9790294"
                      /db_xref="GeneID:1491967"
                      /translation="MAFLMSEFIGLGLAGAGVLSNALLRRQELQLQKQAMENGLVLKA
                      DQLGRLGFNPNEVKNVIVGNSFSSNVRLSNMHNDASVVNAYNVYNPASNGIRKKIKSL

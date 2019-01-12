@@ -141,10 +141,13 @@ sub extract_mature_peptides {
 # parent CDS or protein_id, followed by range of the mat_peptide, followed by its
 # 'db_xref', 'protein_id', and 'product' in this order, whichever appears first.
         my (@id);
-        my $id = 0;
+        my $id = '';
         # get the id from parent CDS feature, 1) GI, 2) NP
         $debug && print STDERR "$subname: \$parent_cds=\n". Dumper($parent_cds) . "End of \$parent_cds\n\n";
-        if ($parent_cds->has_tag('db_xref')) {
+        if ( $parent_cds->has_tag('protein_id')) {
+                @id = $parent_cds->get_tag_values('protein_id');
+                $id = 'CDS='. $id[0] .'|';
+        } elsif ($parent_cds->has_tag('db_xref')) {
                 @id = $parent_cds->get_tag_values('db_xref');
                 for my $id1 (@id) {
                    if ($id1 =~ /^GI:/i) {
@@ -152,10 +155,6 @@ sub extract_mature_peptides {
                 	last;
                    }
                 }
-        }
-        if (($id !~ /^CDS=GI:/) && $parent_cds->has_tag('protein_id')) {
-                @id = $parent_cds->get_tag_values('protein_id');
-                $id = 'CDS='. $id[0] .'|';
         }
 
         # In case $id is still empty
@@ -216,7 +215,7 @@ sub extract_mature_peptides {
         $id .= 'symbol='. $symbol .'|';
 
         # add the id of mat_peptide
-        my @tags = ('db_xref', 'protein_id'); # per Client request
+        my @tags = ('protein_id', 'db_xref'); # per Client request
         for my $tag (@tags) {
              if ($feat_obj->has_tag($tag)) {
                    @id = $feat_obj->get_tag_values($tag);
@@ -429,9 +428,12 @@ sub extract_mature_peptides0 {
 # parent CDS or protein_id, followed by range of the mat_peptide, followed by its
 # 'db_xref', 'protein_id', and 'product' in this order, whichever appears first.
            my (@id);
-           my $id = 0;
+           my $id = '';
            # get the id from parent CDS feature, 1) GI, 2) NP
-           if ($parent_cds->has_tag('db_xref')) {
+           if ( $parent_cds->has_tag('protein_id')) {
+                @id = $parent_cds->get_tag_values('protein_id');
+                $id = 'CDS='. $id[0] ."|";
+           } elsif ($parent_cds->has_tag('db_xref')) {
                 @id = $parent_cds->get_tag_values('db_xref');
                 for my $id1 (@id) {
                    if ($id1 =~ /^GI:/i) {
@@ -439,10 +441,6 @@ sub extract_mature_peptides0 {
                 	last;
                    }
                 }
-           }
-           if (($id !~ /^CDS=GI:/) && $parent_cds->has_tag('protein_id')) {
-                @id = $parent_cds->get_tag_values('protein_id');
-                $id = 'CDS='. $id[0] ."|";
            }
 
            # In case $id is still empty
@@ -644,5 +642,6 @@ sub get_matpeptide {
 
    return ($faa_gbk, $comment);
 } # sub get_matpeptide
+
 
 1;

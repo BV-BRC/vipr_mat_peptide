@@ -795,8 +795,6 @@ sub msa_check_loc {
             return ($errcode);
     }
 
-#    $errcode->{partial_mat_peptide} = Annotate_Math::msa_check_loc_start( $loc2, $reffeat_loc, $refcds_loc, $cds_loc, $aln, $aln_q, $aln_h);
-#    $errcode->{partial_mat_peptide} = $errcode->{partial_mat_peptide} || Annotate_Math::msa_check_loc_end( $loc2, $reffeat_loc, $refcds_loc, $cds_loc, $aln, $aln_q, $aln_h);
     Annotate_Math::msa_check_loc_start( $loc2, $reffeat_loc, $refcds_loc, $cds_loc, $aln, $aln_q, $aln_h, $errcode);
 
     Annotate_Math::msa_check_loc_end( $loc2, $reffeat_loc, $refcds_loc, $cds_loc, $aln, $aln_q, $aln_h, $errcode);
@@ -1070,7 +1068,10 @@ sub msa_check_loc_start {
         $debug && print STDERR "$subn: \$char='$char' \$char=".length($char)."\n";
         if ($char =~ /[$gap_char]+$/) {
             $debug && print STDERR "$subn: \$qstart=$qstart \$char=$char \$gap_char=$gap_char\n";
-            $errcode->{partial_mat_peptide} = 1;
+            # BRC-10299: Enterovirus D68 predicted VP1, 2 extra nucleotides beyond mat_peptide. -2017Dec18
+            # partial_mat_peptide: 1 => partial at start; 2 => partial at end; 3 => partial at start and end
+            $errcode->{partial_mat_peptide} = ($errcode->{partial_mat_peptide} > 1) ? 3
+                : 1;
         }
     $debug && print STDERR "$subn: \$errcode=\n".Dumper($errcode)."\n";
 
@@ -1121,7 +1122,10 @@ sub msa_check_loc_end {
         $debug && print STDERR "$subn: \$char='$char' \$char=".length($char)."\n";
         if ($char =~ /^[$gap_char]+/) {
             $debug && print STDERR "$subn: \$qend=$qend \$char=$char \$gap_char=$gap_char\n";
-            $errcode->{partial_mat_peptide} = 1;
+            # BRC-10299: Enterovirus D68 predicted VP1, 2 extra nucleotides beyond mat_peptide. -2017Dec18
+            # partial_mat_peptide: 1 => partial at start; 2 => partial at end; 3 => partial at start and end
+            $errcode->{partial_mat_peptide} = ($errcode->{partial_mat_peptide} == 1 || $errcode->{partial_mat_peptide} > 2) ? 3
+                : 2;
         }
 
     $debug && print STDERR "$subn: \$errcode=\n".Dumper($errcode)."\n";
@@ -1364,5 +1368,6 @@ sub get_dna_byloc {
 
     return $s;
 } # sub get_dna_byloc
+
 
 1;

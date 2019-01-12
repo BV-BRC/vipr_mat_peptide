@@ -1,13 +1,13 @@
-LOCUS       NC_005081               3411 bp ss-RNA     linear   VRL 01-DEC-2009
+LOCUS       NC_005081               3411 bp ss-RNA     linear   VRL 13-AUG-2018
 DEFINITION  Junin virus segment S, complete genome.
 ACCESSION   NC_005081
-VERSION     NC_005081.1  GI:34365529
-DBLINK      Project: 15028
-KEYWORDS    .
-SOURCE      Junin virus
-  ORGANISM  Junin virus
-            Viruses; ssRNA negative-strand viruses; Arenaviridae; Arenavirus;
-            New world arenaviruses.
+VERSION     NC_005081.1
+DBLINK      BioProject: PRJNA485481
+KEYWORDS    RefSeq.
+SOURCE      Argentinian mammarenavirus
+  ORGANISM  Argentinian mammarenavirus
+            Viruses; ssRNA viruses; ssRNA negative-strand viruses;
+            Arenaviridae; Mammarenavirus.
 REFERENCE   1  (bases 1 to 3411)
   CONSRTM   NCBI Genome Project
   TITLE     Direct Submission
@@ -24,10 +24,10 @@ COMMENT     PROVISIONAL REFSEQ: This record has not yet been subject to final
             COMPLETENESS: full length.
 FEATURES             Location/Qualifiers
      source          1..3411
-                     /organism="Junin virus"
+                     /organism="Argentinian mammarenavirus"
                      /mol_type="genomic RNA"
                      /strain="XJ13"
-                     /db_xref="taxon:11619"
+                     /db_xref="taxon:2169991"
                      /segment="S"
                      /note="small segment"
      primer_bind     1..20
@@ -41,7 +41,6 @@ FEATURES             Location/Qualifiers
                      /codon_start=1
                      /product="glycoprotein precursor"
                      /protein_id="NP_899218.1"
-                     /db_xref="GI:34365530"
                      /db_xref="GeneID:2545642"
                      /translation="MGQFISFMQEIPTFLQEALNIALVAVSLIAIIKGIVNLYKSGLF
                      QFFVFLALAGRSCTEEAFKIGLHTEFQTVSFSMVGLFSNNPHDLPLLCTLNKSHLYIK
@@ -57,13 +56,11 @@ FEATURES             Location/Qualifiers
                      /locus_tag="JVsSgp1"
                      /product="glycoprotein G1"
                      /protein_id="NP_955756.1"
-                     /db_xref="GI:40807309"
      mat_peptide     828..1541
                      /gene="GPC"
                      /locus_tag="JVsSgp1"
                      /product="glycoprotein G2"
                      /protein_id="NP_955757.1"
-                     /db_xref="GI:40807310"
      stem_loop       1562..1590
                      /note="hairpin loop structure"
      stem_loop       1593..1630
@@ -78,7 +75,6 @@ FEATURES             Location/Qualifiers
                      /codon_start=1
                      /product="nucleocapsid protein"
                      /protein_id="NP_899219.1"
-                     /db_xref="GI:34365531"
                      /db_xref="GeneID:2545643"
                      /translation="MAHSKEVPSFRWTQSLRRGLSQFTQTVKSDVLKDAKLIADSIDF
                      NQVAQVQRALRKTKKGEEDLNKLRDLNKEVDRLMSMRSVQRNTVFKVGDLGRDELMEL
@@ -150,4 +146,3 @@ ORIGIN
      3301 aaagcttgga acctccttgg agtgtgccat gccagaagtt ctggtgattt tgatctagaa
      3361 tagagttgct cagtgaaagt gttagacact atgcctagga tccactgtgc g
 //
-

@@ -1,13 +1,13 @@
-LOCUS       NC_018138               3378 bp ss-RNA     linear   VRL 13-JUL-2012
+LOCUS       NC_018138               3378 bp ss-RNA     linear   VRL 13-AUG-2018
 DEFINITION  SFTS virus HB29 segment M, complete genome.
 ACCESSION   NC_018138
-VERSION     NC_018138.1  GI:395406765
+VERSION     NC_018138.1
 DBLINK      Project: 170539
-KEYWORDS    .
+KEYWORDS    RefSeq.
 SOURCE      SFTS virus HB29
   ORGANISM  SFTS virus HB29
-            Viruses; ssRNA negative-strand viruses; Bunyaviridae; Phlebovirus;
-            unclassified Phlebovirus.
+            Viruses; ssRNA viruses; ssRNA negative-strand viruses;
+            Bunyavirales; Phenuiviridae; Phlebovirus.
 REFERENCE   1  (bases 1 to 3378)
   AUTHORS   Yu,X.J., Liang,M.F., Zhang,S.Y., Liu,Y., Li,J.D., Sun,Y.L.,
             Zhang,L., Zhang,Q.F., Popov,V.L., Li,C., Qu,J., Li,Q., Zhang,Y.P.,
@@ -63,7 +63,6 @@ FEATURES             Location/Qualifiers
                      /codon_start=1
                      /product="membrane glycoprotein polyprotein"
                      /protein_id="YP_006504094.1"
-                     /db_xref="GI:395406766"
                      /db_xref="GeneID:13231111"
                      /translation="MMKVIWFSSLICLVIQCSGDSGPIICAGPIHSNKSAGIPHLLGY
                      SEKICQIDRLIHVSSWLRNHSQFQGYVGQRGGRSQVSYYPAENSYSRWSGLLSPCDAD
@@ -90,14 +89,12 @@ FEATURES             Location/Qualifiers
                      /locus_tag="B303_sMgp1"
                      /product="Gn protein"
                      /protein_id="YP_006519138.1"
-                     /db_xref="GI:395406767"
      sig_peptide     1624..1704
                      /locus_tag="B303_sMgp1"
      mat_peptide     1705..3237
                      /locus_tag="B303_sMgp1"
                      /product="Gc glycoprotein"
                      /protein_id="YP_006519139.1"
-                     /db_xref="GI:395406768"
 ORIGIN      
         1 acacagagac ggccaacaat gatgaaagtc atctggttct cctctctgat ctgcttagtc
        61 attcaatgca gtggggattc gggcccaatc atctgcgcag gacccatcca ctcaaacaag

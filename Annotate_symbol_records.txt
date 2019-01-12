@@ -148,9 +148,11 @@ NC_001437;     "2478..3688"; "NS1'"  ; #vipr_mat_peptide.pl, V1.1.8, via script
 NC_001563;     "97..465"; "ancC"  ; #vipr_mat_peptide.pl v1.0.1
 NC_001563;     "97..411"; "C"     ; #vipr_mat_peptide.pl v1.0.1
 NC_001563;    "466..966"; "preM"  ; #vipr_mat_peptide.pl v1.0.1
+NC_001563;    "466..741"; "pr"    ; #vipr_mat_peptide.pl v1.0.1
 NC_001563;    "742..966"; "M"     ; #vipr_mat_peptide.pl v1.0.1
 NC_001563;   "967..2457"; "E"     ; #vipr_mat_peptide.pl v1.0.1
 NC_001563;  "2458..3513"; "NS1"   ; #vipr_mat_peptide.pl v1.0.1
+NC_001563;  "2458..3668"; "NS1'"  ; #vipr_mat_peptide.pl v1.0.1
 NC_001563;  "3514..4206"; "NS2a"  ; #vipr_mat_peptide.pl v1.0.1
 NC_001563;  "4207..4599"; "NS2b"  ; #vipr_mat_peptide.pl v1.0.1
 NC_001563;  "4600..6456"; "NS3"   ; #vipr_mat_peptide.pl v1.0.1

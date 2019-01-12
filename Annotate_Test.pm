@@ -49,6 +49,9 @@ sub run_vipr_mat_peptide {
         return ($fmatpept, $err);
     }
 
+    $fmatpept = $acc;
+    $fmatpept =~ s/[.].{1,7}//i;
+    $fmatpept .= ($fmatpept =~ m/^NC_/i) ? '_matpept_gbk.faa' : '_matpept_msa.faa';
     my $dir_path = $dirIn;
     my $result = '';
 
@@ -68,18 +71,26 @@ sub run_vipr_mat_peptide {
         $cmd .= " -d $dir_path -i $acc "; # input parameters
         $cmd .= " >$dir_path/$fout 2>$dir_path/$ferr"; # Redicting stdout and stderr to files
     }
-    $result = `$cmd`; # run the vipr_mat_peptide.pl script
+    $debug && print STDERR "$subName: dir_path=$dir_path fmatpept=$fmatpept\n";
+    if (-e "$dir_path/$fmatpept") {
+        `rm $dir_path/$fmatpept`;
+    }
+    if (!-e "$dir_path/$fmatpept") {
+        $result = `$cmd`; # run the vipr_mat_peptide.pl script
+    } else {
+        print STDERR "$subName: \$acc=$acc Found existing FASTA file, skipped. Delete such file for live run.\n";
+    }
     $debug && print STDERR "$subName: \$cmd=$cmd\n";
     $debug && print STDERR "$subName: \$result=\n".Dumper($result)."End of \$result\n";
 
     if (!-e "$dir_path/$ferr") {
         $err = "ERROR: After running vipr_mat_peptide.pl, can't find STDERR file '$dirIn/$ferr'";
         return ($fmatpept, $err);
-    }
 
-    # find the name of new outfile from the $ferr
-    open my $in, '<', "$dir_path/$ferr" or croak "$0: Couldn't open $dir_path/$ferr: $OS_ERROR";
-    while ( <$in> ) {
+    } else {
+      # find the name of new outfile from the $ferr
+      open my $in, '<', "$dir_path/$ferr" or croak "$0: Couldn't open $dir_path/$ferr: $OS_ERROR";
+      while ( <$in> ) {
         if ($_ =~ /outfile=.*[\/]([^\/]+)[.]$/) {
             $fmatpept = $1;
             $debug && print STDERR "$subName: \$fmatpept='$fmatpept'\n";
@@ -87,8 +98,9 @@ sub run_vipr_mat_peptide {
             $err = $1;
             last;
         }
+      }
+      close $in or croak "$0: Couldn't close $dir_path/$ferr: $OS_ERROR";
     }
-    close $in or croak "$0: Couldn't close $dir_path/$ferr: $OS_ERROR";
     $debug && print STDERR "$subName: \$fmatpept='$fmatpept' \$err='$err'\n";
     `rm $dir_path/$fout $dir_path/$ferr` if ($removeFile);
 
@@ -154,4 +166,6 @@ sub cmp_vipr_mat_peptide {
     return ($result, $err);
 } # sub cmp_vipr_mat_peptide
 
+
 1;
+

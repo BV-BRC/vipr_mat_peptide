@@ -34,6 +34,17 @@ To-do:
 1. What to do with the 2 RefSeqs of the Reoviridae family?
 
 Changes
+V1.3.4, Dec 2017
+1. Fixed issue with addition of partial codon before a non-partial mat_peptide, e.g. KP729103.
+This issue affects only genomes with one mat_peptide, and such mat_peptide is labeled as Partial.
+
+V1.3.3, Aug 2016
+1. Eliminated GI from the output file, specifically:
+1a. The GI of each polyprotein is replaced with accession.
+1b. The GI of each mat_peptide is replaced with accession, if available.
+
+V1.3.2, Jun 2016
+1. Renamed the script to vipr_mat_peptide.pl.
 
 V1.3.1, Jan 2016
 1. Added Zika virus (64320), Bagaza virus (64290), and Kedougou virus (64311). The reference mat_peptide

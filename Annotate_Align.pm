@@ -517,7 +517,7 @@ if (0) {
                           $pct = Annotate_Util::cmp_cds_bl2seq( $feat_kk, $feat_ff);
 } else {
                           my $runMUSCLE = 0;
-                          my $outfile_name = sprintf("$dir_path/test_ref%d_cds%d", $kk, $ff);
+                          my $outfile_name = sprintf("$dir_path/test%d_ref%d_cds%d", $PID, $kk, $ff);
                           $outfile_name .= $runMUSCLE ? '.afa' : '.msf';
                           $pct = Annotate_Util::cmp_cds_clustalw( $feat_kk, $feat_ff, $outfile_name, $runMUSCLE, $exe_dir, $dir_path, $progs);
 }
@@ -765,5 +765,6 @@ sub MSA_annotate_1cds {
 
     return $feats_all;
 } # sub MSA_annotate_1cds
+
 
 1;
